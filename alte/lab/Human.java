@@ -1,12 +1,16 @@
+package alte.lab;
+
 import org.json.simple.JSONObject;
 
 import java.io.Serializable;
+import java.time.OffsetDateTime;
 
 public class Human implements Serializable, Comparable<Human> {
     private String name;
     private int age;
     private double xPos;
     private double yPos;
+    private OffsetDateTime tTime;
     //TODO: ADD DATE
     public Human(String name, int age) {
         this(name, age, 0.0d, 0.0d);
@@ -17,6 +21,7 @@ public class Human implements Serializable, Comparable<Human> {
         this.age = age;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.tTime = OffsetDateTime.now();
     }
 
     public String getName() {
@@ -71,7 +76,7 @@ public class Human implements Serializable, Comparable<Human> {
 
     @Override
     public String toString() {
-        return "Human: "+name +", "+ Integer.toString(age) +" years old, Position:[" + Double.toString(xPos)+";"+Double.toString(yPos)+"]";
+        return "alte.lab.Human: "+name +", "+ Integer.toString(age) +" years old, Position:[" + Double.toString(xPos)+";"+Double.toString(yPos)+"]";
         //return super.toString();
     }
 }
