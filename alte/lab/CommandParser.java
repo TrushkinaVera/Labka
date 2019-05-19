@@ -17,11 +17,11 @@ public class CommandParser {
         }*/
             String Name = "";
             int Age;
-            double x, y;
+            int x, y;
             Name = (String) JValues.get("Name");
             Age = ((Long) JValues.get("Age")).intValue();
-            x = (double) JValues.get("PosX");
-            y = (double) JValues.get("PosY");
+            x = ((Long) JValues.get("PosX")).intValue();
+            y = ((Long) JValues.get("PosY")).intValue();
         /*catch (NullPointerException e2){
             pushMessage("Missing arguments");
             return true;

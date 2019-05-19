@@ -3,7 +3,6 @@ package alte.lab;
 import org.json.simple.JSONObject;
 
 import java.io.Serializable;
-import java.util.concurrent.CyclicBarrier;
 
 public class User implements Serializable {
     private String login;

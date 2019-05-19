@@ -8,15 +8,15 @@ import java.time.OffsetDateTime;
 public class Human implements Serializable, Comparable<Human> {
     private String name;
     private int age;
-    private double xPos;
-    private double yPos;
+    private int xPos;
+    private int yPos;
     private OffsetDateTime tTime;
     //TODO: ADD DATE
     public Human(String name, int age) {
-        this(name, age, 0.0d, 0.0d);
+        this(name, age, 0, 0);
     }
 
-    public Human(String name, int age, double xPos, double yPos) {
+    public Human(String name, int age, int xPos, int yPos) {
         this.name = name;
         this.age = age;
         this.xPos = xPos;
@@ -44,19 +44,19 @@ public class Human implements Serializable, Comparable<Human> {
         yPos+=y;
     }
 
-    public double getPosX() {
+    public int getPosX() {
         return xPos;
     }
 
-    public void setPosX(double xPos) {
+    public void setPosX(int xPos) {
         this.xPos = xPos;
     }
 
-    public double getPosY() {
+    public int getPosY() {
         return yPos;
     }
 
-    public void setPosY(double yPos) {
+    public void setPosY(int yPos) {
         this.yPos = yPos;
     }
 

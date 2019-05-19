@@ -9,6 +9,14 @@ public class ServerMain {
     private static String DB_URL = "jdbc:postgresql://uriy.yuran.us:5432/lab7";
     private static String USER = "blablabla";
     private static String PASS = "blablabla";
+    public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY,login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
+    public static String createObjectsBd = new String("Create table if not exists objects(id SERIAL PRIMARY KEY," +
+            "login TEXT NOT NULL," +
+            "name TEXT NOT NULL," +
+            "age int4 NOT NULL," +
+            "x int4," +
+            "y int4," +
+            "appearedDate int4)");
     public static ArrayList<CollectionCommand> cmds;
     public static Semaphore syncher;
     public static void main(String[] args) {
