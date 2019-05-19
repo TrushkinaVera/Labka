@@ -7,5 +7,5 @@ import java.sql.SQLException;
 
 public interface CollectionCommand {
     public String getName();
-    public Object doCommand(Connection conn, Human arg) throws SQLException;
+    public Object doCommand(Connection conn, Object arg) throws SQLException;
 }

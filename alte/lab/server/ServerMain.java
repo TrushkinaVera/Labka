@@ -3,15 +3,17 @@ import alte.lab.Human;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.concurrent.Semaphore;
 
 public class ServerMain {
     private static String DB_URL = "jdbc:postgresql://uriy.yuran.us:5432/lab7";
     private static String USER = "blablabla";
     private static String PASS = "blablabla";
-
+    public static ArrayList<CollectionCommand> cmds;
+    public static Semaphore syncher;
     public static void main(String[] args) {
-        ArrayList<CollectionCommand> cmds = new ArrayList<>();
-
+        cmds = new ArrayList<>();
+        syncher = new Semaphore(1);
 
         //Adding commands
         cmds.add(new CollectionCommand() {
@@ -21,8 +23,9 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Human arg) throws SQLException {
-                conn.prepareCall("INSERT INTO object values ('"+arg.getName()+"', "+ arg.getAge()+ ", "+ arg.getPosX() + ", " +arg.getPosY() +")");
+            public Object doCommand(Connection conn, Object arg) throws SQLException {
+                Human harg = (Human)arg;
+                conn.prepareCall("INSERT INTO object values ('"+harg.getName()+"', "+ harg.getAge()+ ", "+ harg.getPosX() + ", " +harg.getPosY() +")");
                 return "OK";
             }
         });
@@ -33,7 +36,31 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Human arg) {
+            public Object doCommand(Connection conn, Object arg) {
+                return "OK";
+            }
+        });
+        cmds.add(new CollectionCommand() {
+            @Override
+            public String getName() {
+                return "login";
+            }
+
+            @Override
+            public Object doCommand(Connection conn, Object arg) throws SQLException {
+                Human harg = (Human)arg;
+                conn.prepareCall("INSERT INTO object values ('"+harg.getName()+"', "+ harg.getAge()+ ", "+ harg.getPosX() + ", " +harg.getPosY() +")");
+                return "OK";
+            }
+        });
+        cmds.add(new CollectionCommand() {
+            @Override
+            public String getName() {
+                return "save";
+            }
+
+            @Override
+            public Object doCommand(Connection conn, Object arg) {
                 return "OK";
             }
         });
