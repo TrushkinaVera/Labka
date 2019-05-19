@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * Коды ответов сервера. Все подробности брал на httpstatuses.com
  */
-enum ResponseCode implements Serializable {
+public enum ResponseCode implements Serializable {
     OK("ok"),
     UNATHORIZED("unathorized"),
     BAD_REQUEST( "bad_request");

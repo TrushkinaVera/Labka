@@ -1,5 +1,8 @@
 package alte.lab.client;
 
+import alte.lab.User;
+import alte.lab.localization.Localization;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -9,9 +12,12 @@ import java.net.UnknownHostException;
 public class ClientMain {
     public static String hostname = "localhost";
     public static int port = 7777;
+    public static User auth = null;
+    public static Localization localization;
 
     public static void main(String[] args) {
         Socket connection;
+        localization = new Localization();
         try {
             connection = new Socket(hostname, port);
             ObjectInputStream in;

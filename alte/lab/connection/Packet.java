@@ -64,7 +64,7 @@ public class Packet implements SerAble {
      * Создать пакет из списка значений
      * @param data значения в пакете
      */
-    static Packet formPacket(Pair<Header, Object>... data) {
+    public static Packet formPacket(Pair<Header, Object>... data) {
         Packet response = new Packet();
         for(Pair<Header, Object> d : data)
             response.putData(d.getKey(), d.getValue());

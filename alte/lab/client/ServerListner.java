@@ -1,10 +1,14 @@
 package alte.lab.client;
 
 import alte.lab.connection.Packet;
+import alte.lab.connection.ResponseCode;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import static alte.lab.client.ClientMain.localization;
+import static alte.lab.connection.ResponseCode.*;
 
 public class ServerListner implements Runnable{
     ObjectInputStream in;
@@ -19,14 +23,20 @@ public class ServerListner implements Runnable{
                 Packet input;
                 while (true) {
                     if ((input = (Packet) in.readObject()) != null) {
-                        //TODO:делай все, что тебе надо с пакетами, приходящими с сервера
-                        System.out.println(input);
+                        ResponseCode code = input.getReponseCode();
+                        switch(code) {
+                            case OK:
+                                System.out.println(input.getStringResponse());
+                                break;
+                            case UNATHORIZED:
+                            case BAD_REQUEST:
+                                System.out.println(code.getMessage(localization));
+                                break;
+                        }
                     }
                 }
             }
-            catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
+            catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
         }

@@ -1,5 +1,5 @@
 package alte.lab.connection;
 
-enum Header {
+public enum Header {
     CODE, DATA, COMMAND, USER
 }
