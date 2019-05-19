@@ -64,7 +64,7 @@ public class CommandParser {
      * @param d входная команда из консоли
      * @return возвращает объект alte.lab.Command, который содержит в себе аргумент соответствующего типа
      */
-    public static Command parseAndExecute(String d){
+    public static Command parse(String d){
         try{
             String cmd = d.toLowerCase();
             int start = d.indexOf(" ");

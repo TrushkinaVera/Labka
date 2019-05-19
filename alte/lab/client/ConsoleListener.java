@@ -13,7 +13,7 @@ public class ConsoleListener extends Thread{
         while(true){
             input = reader.nextLine();
             System.out.println(input);
-            Command cmd = CommandParser.parseAndExecute(input);
+            Command cmd = CommandParser.parse(input);
             try{
                 System.out.println(cmd.getText());
                 System.out.println(cmd.getArgument().toString());
