@@ -1,6 +1,9 @@
 package alte.lab.server;
 import alte.lab.Human;
+import com.sun.security.ntlm.Server;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
@@ -16,7 +19,7 @@ public class ServerMain {
             "age int4 NOT NULL," +
             "x int4," +
             "y int4," +
-            "appearedDate int4)");
+            "appearedDate TEXT NOT NULL)");
     public static ArrayList<CollectionCommand> cmds;
     public static Semaphore syncher;
     public static void main(String[] args) {
@@ -94,5 +97,31 @@ public class ServerMain {
             e.printStackTrace();
             return;
         }
+        //допустим здесь начинаем сервер
+
+        int port = 7777;
+        ServerSocket server;
+        try {
+            try {
+                server  = new ServerSocket(port);
+                System.out.println("Сервер запущен!");
+                int id = 0;
+                while(true){
+                    new ServerConnection(syncher, server.accept());
+                    id++;
+                }
+            }
+            finally {
+                System.out.println("Сервер выключается");
+                //TODO: пофикси плз
+                // server.close();
+            }
+        }
+        catch (IOException e) {
+            System.out.println("Сервер не был запущен из-за ошибки");
+        }
+
+
+
     }
 }
