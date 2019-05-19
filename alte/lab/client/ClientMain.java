@@ -19,21 +19,15 @@ public class ClientMain {
             System.out.println("Подключаемся к серверу  ...");
             in = new ObjectInputStream(connection.getInputStream());
             out = new ObjectOutputStream(connection.getOutputStream());
-
             System.out.println("Подключено. Ожидаем отправки команд на сервер...");
-            /*cListener = new ClientFuncs.ConsoleInputListener();
-            cListener.start();
-            sListener = new ClientFuncs.ServerInputListener();
-            sListener.start();
+            new Thread(new ConsoleListener(out)).start();
+            new Thread(new ServerListner(in)).start();
 
-            */
+
         } catch (UnknownHostException e) {
             System.out.println("Хост не найден");
         } catch (IOException e) {
             System.out.println("Ошибка подключения");
         }
-        ConsoleListener l = new ConsoleListener();
-        l.start();
-
     }
 }

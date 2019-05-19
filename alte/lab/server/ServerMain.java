@@ -1,6 +1,5 @@
 package alte.lab.server;
 import alte.lab.Human;
-import com.sun.security.ntlm.Server;
 
 import java.io.IOException;
 import java.net.ServerSocket;

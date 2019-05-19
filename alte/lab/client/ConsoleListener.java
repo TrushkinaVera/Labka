@@ -1,11 +1,19 @@
 package alte.lab.client;
 import alte.lab.Command;
 import alte.lab.CommandParser;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 
 import static jdk.nashorn.internal.objects.Global.print;
 
-public class ConsoleListener extends Thread{
+public class ConsoleListener implements Runnable{
+    private ObjectOutputStream out;
+    public ConsoleListener(ObjectOutputStream out) {
+        this.out = out;
+    }
+
     @Override
     public void run() {
         Scanner reader = new Scanner(System.in);
