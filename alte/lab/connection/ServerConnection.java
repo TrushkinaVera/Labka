@@ -9,3 +9,32 @@ abstract class ServerConnection extends Thread {
 
     }
 }
+
+
+/*
+
+
+
+    new ServerConnection((packet) -> {
+
+        System.out.println(packet.getStringResponse());
+
+    }).start();
+
+    return: Pair<Header, Object>[]
+    param: Packet
+
+
+
+------------------------------------------------------------------------
+
+
+
+    IN
+    OUT
+    readBytes
+
+    OUT.write( FUNCTION(packet.fromBytes(bytes)) )
+
+
+ */
