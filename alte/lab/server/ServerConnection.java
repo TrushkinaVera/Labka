@@ -6,12 +6,11 @@ import alte.lab.connection.Packet;
 import alte.lab.connection.ResponseCode;
 import javafx.util.Pair;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.SQLOutput;
 import java.util.concurrent.Semaphore;
 
 public class ServerConnection implements Runnable{
@@ -22,16 +21,20 @@ public class ServerConnection implements Runnable{
         System.out.println("new connection detected");
         this.smp = smp;
         this.socket = socket;
+        new Thread(this).start();
     }
     @Override
     public void run() {
 
         try {
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(new Packet(Pair));
+            System.out.println("waiting for input");
+            OutputStream ts = socket.getOutputStream();
+            InputStream is = socket.getInputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(ts);
+            ObjectInputStream ois = new ObjectInputStream(is);
             Packet input;
             while(true){
+                System.out.println("eze");
                 if((input = (Packet) ois.readObject()) != null){
                     System.out.println(input.getCommand().getText());
                     //вот твой инпут пакет
@@ -60,15 +63,15 @@ public class ServerConnection implements Runnable{
                     //передер
                 }
             }
+        } catch (InterruptedException exception) {
+            exception.printStackTrace();
+        } catch (ClassNotFoundException exception) {
+            exception.printStackTrace();
         }
         catch (IOException ex) {
             System.out.println("Кажется, мы сломались");
             ex.printStackTrace();
             System.exit(0);
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 

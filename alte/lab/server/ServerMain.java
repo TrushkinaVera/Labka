@@ -90,8 +90,9 @@ public class ServerMain {
 
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
-                Human harg = (Human)arg;
-                conn.prepareCall("INSERT INTO object values ('"+harg.getName()+"', "+ harg.getAge()+ ", "+ harg.getPosX() + ", " +harg.getPosY() +")");
+                User harg = usr;
+
+                //conn.prepareCall("INSERT INTO object values ('"+harg.getName()+"', "+ harg.getAge()+ ", "+ harg.getPosX() + ", " +harg.getPosY() +")");
                 return "OK";
             }
         });
