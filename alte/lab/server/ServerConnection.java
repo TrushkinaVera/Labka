@@ -31,7 +31,6 @@ public class ServerConnection implements Runnable{
             ObjectInputStream ois = new ObjectInputStream(is);
             Packet input;
             while(true){
-                System.out.println("eze");
                 if((input = (Packet) ois.readObject()) != null){
                     System.out.println(input.getCommand().getText());
                     //вот твой инпут пакет
