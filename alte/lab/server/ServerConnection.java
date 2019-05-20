@@ -19,6 +19,7 @@ public class ServerConnection implements Runnable{
     private Socket socket;
     private Connection conn;
     public ServerConnection(Semaphore smp, Socket socket) {
+        System.out.println("new connection detected");
         this.smp = smp;
         this.socket = socket;
     }
@@ -28,9 +29,11 @@ public class ServerConnection implements Runnable{
         try {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+            oos.writeObject(new Packet(Pair));
             Packet input;
             while(true){
                 if((input = (Packet) ois.readObject()) != null){
+                    System.out.println(input.getCommand().getText());
                     //вот твой инпут пакет
                     Command cmd = input.getCommand();
                     //блокиров очка
