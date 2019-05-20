@@ -10,7 +10,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class ClientMain {
-    public static String hostname = "localhost";
+    public static String hostname = "192.168.43.242";
     public static int port = 7777;
     public static User auth = null;
     public static Localization localization;
@@ -23,11 +23,15 @@ public class ClientMain {
             ObjectInputStream in;
             ObjectOutputStream out;
             System.out.println(localization.getString("connecting"));
-            in = new ObjectInputStream(connection.getInputStream());
-            out = new ObjectOutputStream(connection.getOutputStream());
+
+            System.out.println(connection.isClosed());
+            System.out.println(connection.isConnected());
+            System.out.println(connection.isInputShutdown());
+            System.out.println(connection.isOutputShutdown());
+
             System.out.println(localization.getString("connected"));
-            new Thread(new ConsoleListener(out)).start();
-            new Thread(new ServerListner(in)).start();
+            new Thread(new ConsoleListener(connection)).start();
+            new Thread(new ServerListner(connection)).start();
 
 
         } catch (UnknownHostException e) {

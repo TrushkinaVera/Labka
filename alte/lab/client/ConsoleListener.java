@@ -6,8 +6,10 @@ import alte.lab.connection.Header;
 import alte.lab.connection.Packet;
 import javafx.util.Pair;
 
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.Scanner;
 
 import static alte.lab.client.ClientMain.localization;
@@ -15,8 +17,13 @@ import static alte.lab.client.ClientMain.auth;
 
 public class ConsoleListener implements Runnable{
     private ObjectOutputStream out;
-    public ConsoleListener(ObjectOutputStream out) {
-        this.out = out;
+    public ConsoleListener(Socket connection) {
+        try {
+            this.out = new ObjectOutputStream(connection.getOutputStream());
+            this.out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -32,7 +39,8 @@ public class ConsoleListener implements Runnable{
                     auth = (User) cmd.getArgument();
                     System.out.println(localization.getString("auth_saved"));
                 }
-                else if(ClientMain.auth != null) {
+
+                if(ClientMain.auth != null) {
                     Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));
                     out.writeObject(packet);
                     out.flush();
@@ -40,7 +48,7 @@ public class ConsoleListener implements Runnable{
                 else System.out.println(localization.getString("auth_null"));
             }
             catch(NullPointerException | IOException e) {
-                e.printStackTrace();
+                System.out.println(localization.getString("wrong_command"));
             }
         }
     }
