@@ -10,6 +10,7 @@ public class Human implements Serializable, Comparable<Human> {
     private int age;
     private int xPos;
     private int yPos;
+    private Integer id;
     private OffsetDateTime tTime;
     //TODO: ADD DATE
     public Human(String name, int age) {
@@ -22,6 +23,7 @@ public class Human implements Serializable, Comparable<Human> {
         this.xPos = xPos;
         this.yPos = yPos;
         this.tTime = OffsetDateTime.now();
+        this.id = 0;
     }
 
     public String getName() {
@@ -42,6 +44,14 @@ public class Human implements Serializable, Comparable<Human> {
     public void move(double x, double y){
         xPos+=x;
         yPos+=y;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public int getPosX() {
@@ -71,6 +81,7 @@ public class Human implements Serializable, Comparable<Human> {
         oneMan.put("Age", age);
         oneMan.put("PosX", xPos);
         oneMan.put("PosY", yPos);
+        //TODO: нужен ли айдишник в JSON
         return oneMan;
     }
 

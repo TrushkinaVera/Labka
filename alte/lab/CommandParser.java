@@ -33,6 +33,27 @@ public class CommandParser {
         }
 
     }
+    private static Integer decodeIdArgument(String d){
+        try {
+            JSONParser parser = new JSONParser();
+            JSONObject JValues;
+            JValues = (JSONObject) parser.parse(d);
+       /*catch (ParseException e1) {
+            pushMessage("Invalid JSON data");
+            return true;
+        }*/
+
+            Integer Id = new Integer (((Long) JValues.get("ID")).intValue());
+        /*catch (NullPointerException e2){
+            pushMessage("Missing arguments");
+            return true;
+        }*/
+            return Id;
+        }
+        catch (Exception e){
+            return null;
+        }
+    }
     private static User decodeUserArgument(String d){
         try {
             JSONParser parser = new JSONParser();
@@ -72,13 +93,18 @@ public class CommandParser {
             String JData = d.substring(start+1).trim();
             Human hArg;
             User uArg;
+            Integer iArg;
             hArg = decodeHumanArgument(JData);
             uArg = decodeUserArgument(JData);
+            iArg = decodeIdArgument(JData);
             if(hArg != null){
                 return new Command(cmd, hArg);
             }
             else if (uArg != null){
                 return new Command(cmd, uArg);
+            }
+            else if(iArg != null){
+                return  new Command(cmd, iArg);
             }
             else return null;
         }
