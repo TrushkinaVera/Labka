@@ -12,6 +12,7 @@ public enum ResponseCode implements Serializable {
     BAD_REQUEST( "bad_request");
 
     private String message_key;
+
     ResponseCode(String message_key) {
         this.message_key = message_key;
     }
