@@ -20,18 +20,12 @@ public class ClientMain {
         localization = new Localization();
         try {
             connection = new Socket(hostname, port);
-            ObjectInputStream in;
-            ObjectOutputStream out;
             System.out.println(localization.getString("connecting"));
 
-            System.out.println(connection.isClosed());
-            System.out.println(connection.isConnected());
-            System.out.println(connection.isInputShutdown());
-            System.out.println(connection.isOutputShutdown());
-
-            System.out.println(localization.getString("connected"));
             new Thread(new ConsoleListener(connection)).start();
             new Thread(new ServerListner(connection)).start();
+
+            System.out.println(localization.getString("connected"));
 
 
         } catch (UnknownHostException e) {

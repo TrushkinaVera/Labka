@@ -32,7 +32,6 @@ public class ConsoleListener implements Runnable{
         String input;
         while(true){
             input = reader.nextLine();
-            System.out.println(input);
             Command cmd = CommandParser.parse(input);
             try {
                 if ("login".equals(cmd.getText())) {
@@ -49,6 +48,7 @@ public class ConsoleListener implements Runnable{
             }
             catch(NullPointerException | IOException e) {
                 System.out.println(localization.getString("wrong_command"));
+                e.printStackTrace();
             }
         }
     }

@@ -62,9 +62,7 @@ public class CommandParser {
             String login = "";
             String password;
             login = (String) JValues.get("Login");
-            System.out.println(login);
             password = ((String) JValues.get("Password"));
-            System.out.println(password);
             User razvrat = new User(login);
             razvrat.hashAndSetPassword(password);
             return razvrat;//ДЕЛАЮТ РАЗВРАТЫ В ТРЕНАЖЕРНОМ ЗАЛЕ

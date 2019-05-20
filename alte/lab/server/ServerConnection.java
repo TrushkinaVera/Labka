@@ -29,7 +29,6 @@ public class ServerConnection implements Runnable{
         try {
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-            oos.writeObject(new Packet(Pair));
             Packet input;
             while(true){
                 if((input = (Packet) ois.readObject()) != null){
