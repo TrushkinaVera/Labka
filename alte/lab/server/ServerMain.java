@@ -71,7 +71,7 @@ public class ServerMain {
                 long id = razvrat.getLong(1);
 
                 Mail.mail(login, "Вам письмо", "Ну здарова. Пароль сматри сюда: "+password);
-                return "Account created, your unique ID is "+ id;
+                return "Account created, your unique ID is "+ id + " (and password is "+ password + ")";
             }
         });
 
