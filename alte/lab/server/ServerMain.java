@@ -125,12 +125,12 @@ public class ServerMain {
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException{
                 Integer harg = (Integer) arg;
-                String sql = "SELECT * FROM user LIMIT 1";
+                String sql = "DELETE * FROM user WHERE id=?";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setInt(1, harg.intValue());
+                preparedStatement.setInt(1, harg);
                 int rows = preparedStatement.executeUpdate();
 
-                return "OK";
+                return (rows > 0 ? "OK" : "Not found");
 
             }
         });
