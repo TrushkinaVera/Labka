@@ -1,11 +1,14 @@
 package alte.lab.server;
 import alte.lab.Human;
+import alte.lab.Mail;
 import alte.lab.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class ServerMain {
@@ -50,7 +53,25 @@ public class ServerMain {
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
                 //TODO: регистрация
-                return null;
+
+                String login = (String)arg;
+                String sql = "INSERT INTO users (login, passwords) Values (?, ?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                preparedStatement.setString(1, login);
+
+                byte[] bytes = new byte[16];
+                new Random().nextBytes(bytes);
+                String password = new String(Base64.getEncoder().encode(bytes));
+                preparedStatement.setString(2, User.encrypt(password));
+
+                int rows = preparedStatement.executeUpdate();
+                ResultSet razvrat = preparedStatement.getGeneratedKeys();
+                razvrat.next();
+                long id = razvrat.getLong(1);
+
+                Mail.mail(login, "Вам письмо", "Ну здарова. Пароль сматри сюда: "+password);
+                return "Account created, your unique ID is "+ id;
             }
         });
 
