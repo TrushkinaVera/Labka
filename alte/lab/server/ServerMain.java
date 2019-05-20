@@ -76,8 +76,6 @@ public class ServerMain {
         });
 
 
-        //TODO: Артем, ебашь серверную часть
-        //Driver conn = new Driver();
         try {
             Class.forName("org.postgresql.Driver");
 
@@ -99,7 +97,7 @@ public class ServerMain {
         //допустим здесь начинаем сервер
 
         int port = 7777;
-        ServerSocket server;
+        ServerSocket server = null;
         try {
             try {
                 server  = new ServerSocket(port);
@@ -112,8 +110,7 @@ public class ServerMain {
             }
             finally {
                 System.out.println("Сервер выключается");
-                //TODO: пофикси плз
-                // server.close();
+                server.close();
             }
         }
         catch (IOException e) {
