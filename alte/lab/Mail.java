@@ -13,11 +13,11 @@ public class Mail {
         String smtphost = "smtp.yandex.com";
 
         Properties propvls = new Properties();
-        propvls.put("Mail.smtp.host", smtphost);
-        propvls.put("Mail.smtp.auth", "true");
-        propvls.put("Mail.smtp.port", "465");
-        propvls.put("Mail.smtp.socketFactory.port", "465");
-        propvls.put("Mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        propvls.put("mail.smtp.host", smtphost);
+        propvls.put("mail.smtp.auth", "true");
+        propvls.put("mail.smtp.port", "465");
+        propvls.put("mail.smtp.socketFactory.port", "465");
+        propvls.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 
         Session sessionobj = Session.getInstance(propvls,
                 new javax.mail.Authenticator() {

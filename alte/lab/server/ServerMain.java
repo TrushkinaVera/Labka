@@ -16,11 +16,13 @@ public class ServerMain {
     static boolean auth(Connection conn, String login, String password) {
         int rows = 0;
         try {
-            String sql = "SELECT COUNT(*) from users WHERE login = ? and pass = ? LIMIT 1";
+            String sql = "SELECT COUNT(*) from users WHERE login = ? and password = ?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
-            rows = preparedStatement.executeQuery().getInt(0);
+            ResultSet s = preparedStatement.executeQuery();
+            s.next();
+            rows = s.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -51,7 +53,7 @@ public class ServerMain {
 
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
-                return auth(conn, usr.getLogin(), usr.getPassword());
+                return Boolean.toString(auth(conn, usr.getLogin(), usr.getPassword()));
             }
         });
         cmds.add(new CollectionCommand() {
@@ -65,7 +67,7 @@ public class ServerMain {
                 //TODO: регистрация
 
                 String login = (String)arg;
-                String sql = "INSERT INTO users (login, passwords) Values (?, ?)";
+                String sql = "INSERT INTO users (login, password) Values (?, ?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
                 preparedStatement.setString(1, login);
@@ -171,6 +173,7 @@ public class ServerMain {
             stmt.executeUpdate(createUserBd);
             stmt = connection.createStatement();
             stmt.executeUpdate(createObjectsBd);
+            stmt = connection.createStatement();
         } catch (SQLException e) {
             System.out.println("Error creating tables");
             e.printStackTrace();
