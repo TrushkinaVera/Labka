@@ -74,6 +74,10 @@ public class Human implements Serializable, Comparable<Human> {
         return oneMan;
     }
 
+    public String getDate() {
+        return tTime.toString();
+    }
+
     @Override
     public String toString() {
         return "alte.lab.Human: "+name +", "+ Integer.toString(age) +" years old, Position:[" + Double.toString(xPos)+";"+Double.toString(yPos)+"]";

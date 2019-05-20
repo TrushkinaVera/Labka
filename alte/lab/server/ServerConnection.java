@@ -1,6 +1,7 @@
 package alte.lab.server;
 
 import alte.lab.Command;
+import alte.lab.User;
 import alte.lab.connection.Packet;
 
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class ServerConnection implements Runnable{
                     try {
                         for (CollectionCommand e : ServerMain.cmds) {
                             if (e.getName().equals(cmd.getText())) {
-                                razvrat = e.doCommand(conn, cmd.getArgument());
+                                razvrat = e.doCommand(conn, cmd.getArgument(), input.getUser());
                                 break;
                             }
                         }

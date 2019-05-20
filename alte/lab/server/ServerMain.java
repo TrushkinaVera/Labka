@@ -1,5 +1,6 @@
 package alte.lab.server;
 import alte.lab.Human;
+import alte.lab.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -18,7 +19,7 @@ public class ServerMain {
             "age int4 NOT NULL," +
             "x int4," +
             "y int4," +
-            "appearedDate TEXT NOT NULL)");
+            "createdate TEXT NOT NULL)");
     public static ArrayList<CollectionCommand> cmds;
     public static Semaphore syncher;
     public static void main(String[] args) {
@@ -33,9 +34,17 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Object arg) throws SQLException {
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
                 Human harg = (Human)arg;
-                conn.prepareCall("INSERT INTO object values ('"+harg.getName()+"', "+ harg.getAge()+ ", "+ harg.getPosX() + ", " +harg.getPosY() +")");
+                String sql = "INSERT INTO objects (login, name, age, x, y, createdate) Values (?, ?, ?, ?, ?, ?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, usr.getLogin());
+                preparedStatement.setString(2, harg.getName());
+                preparedStatement.setInt(3, harg.getAge());
+                preparedStatement.setInt(4, harg.getPosX());
+                preparedStatement.setInt(5, harg.getPosY());
+                preparedStatement.setString(6, harg.getDate());
+                int rows = preparedStatement.executeUpdate();
                 return "OK";
             }
         });
@@ -46,7 +55,7 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Object arg) {
+            public Object doCommand(Connection conn, Object arg, User usr) {
                 return "OK";
             }
         });
@@ -57,7 +66,7 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Object arg) throws SQLException {
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
                 Human harg = (Human)arg;
                 conn.prepareCall("INSERT INTO object values ('"+harg.getName()+"', "+ harg.getAge()+ ", "+ harg.getPosX() + ", " +harg.getPosY() +")");
                 return "OK";
@@ -70,7 +79,7 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Object arg) {
+            public Object doCommand(Connection conn, Object arg, User usr) {
                 return "OK";
             }
         });
