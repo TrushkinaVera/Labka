@@ -16,11 +16,11 @@ public class ServerMain {
     static boolean auth(Connection conn, String login, String password) {
         int rows = 0;
         try {
-            String sql = "SELECT * from users WHERE login = ? and pass = ? LIMIT 1";
+            String sql = "SELECT COUNT(*) from users WHERE login = ? and pass = ? LIMIT 1";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
             preparedStatement.setString(1, login);
             preparedStatement.setString(2, password);
-            rows = preparedStatement.executeUpdate();
+            rows = preparedStatement.executeQuery().getInt(0);
         } catch (SQLException e) {
             e.printStackTrace();
         }
