@@ -74,10 +74,6 @@ public class CommandParser {
             return null;
         }
     }
-    /*public String decodeStringArgument(String d){
-        return d;
-    }
-*/
     /**
      *
      * @param d входная команда из консоли
@@ -103,8 +99,7 @@ public class CommandParser {
             }
             else if(iArg != null){
                 return  new Command(cmd, iArg);
-            }
-            else return null;
+            } else return new Command(cmd, JData);
         }
         catch(StringIndexOutOfBoundsException e){
             return null;
