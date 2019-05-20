@@ -1,10 +1,10 @@
 package alte.lab.client;
 import alte.lab.Command;
 import alte.lab.CommandParser;
+import alte.lab.Pair;
 import alte.lab.User;
 import alte.lab.connection.Header;
 import alte.lab.connection.Packet;
-import javafx.util.Pair;
 
 import javax.sound.midi.Soundbank;
 import java.io.IOException;
@@ -38,6 +38,11 @@ public class ConsoleListener implements Runnable{
                     auth = (User) cmd.getArgument();
                     System.out.println(localization.getString("auth_saved"));
                 }
+                else if ("register".equals(cmd.getText())) {
+                    auth = new User((String)cmd.getArgument());
+                    System.out.println(localization.getString("try_register"));
+                }
+
 
                 if(ClientMain.auth != null) {
                     Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));

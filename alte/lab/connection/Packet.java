@@ -1,9 +1,9 @@
 package alte.lab.connection;
 
 import alte.lab.Command;
+import alte.lab.Pair;
 import alte.lab.SerAble;
 import alte.lab.User;
-import javafx.util.Pair;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

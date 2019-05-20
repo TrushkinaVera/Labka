@@ -1,10 +1,10 @@
 package alte.lab.server;
 
 import alte.lab.Command;
+import alte.lab.Pair;
 import alte.lab.connection.Header;
 import alte.lab.connection.Packet;
 import alte.lab.connection.ResponseCode;
-import javafx.util.Pair;
 
 import java.io.*;
 import java.net.Socket;
