@@ -10,6 +10,7 @@ import alte.lab.connection.ResponseCode;
 import java.io.*;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
 public class ServerConnection implements Runnable{
@@ -28,6 +29,13 @@ public class ServerConnection implements Runnable{
             System.out.println("waiting for input");
             OutputStream ts = socket.getOutputStream();
             InputStream is = socket.getInputStream();
+            //Debugger for starnge requests
+            /*Scanner d = new Scanner(is);
+            while(true){
+                if(d.hasNext()){
+                    System.out.println(d.nextLine());
+                }
+            }*/
             ObjectOutputStream oos = new ObjectOutputStream(ts);
             ObjectInputStream ois = new ObjectInputStream(is);
             Packet input;

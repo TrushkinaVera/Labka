@@ -10,8 +10,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class ClientMain {
-    public static String hostname = "192.168.43.242";
-    public static int port = 7777;
+    public static String hostname = "localhost";
+    public static int port = 54105;
     public static User auth = null;
     public static Localization localization;
 

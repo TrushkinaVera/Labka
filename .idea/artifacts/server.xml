@@ -3,10 +3,14 @@
     <output-path>$PROJECT_DIR$/out/artifacts/server</output-path>
     <root id="archive" name="server.jar">
       <element id="module-output" name="ProgLab7_New" />
-      <element id="library" level="project" name="yuran.us" />
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/MANIFEST/new/META-INF/MANIFEST.MF" />
       </element>
+      <element id="extracted-dir" path="$PROJECT_DIR$/json-simple-1.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/postgresql-42.2.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/javax.mail.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mail.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/javax.activation-api-1.2.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

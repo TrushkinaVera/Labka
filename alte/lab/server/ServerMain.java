@@ -30,7 +30,7 @@ public class ServerMain {
     }
 
     private static String DB_URL = "jdbc:postgresql://pg/studs"; //"jdbc:postgresql://localhost:5432/labaa";
-    private static String USER = "s265097";//"smarts";
+    private static String USER = "s265097";//"s";//"smarts";
     private static String PASS = "bpk773";//difpas2";
     public static Connection conn;
     public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
@@ -181,7 +181,7 @@ public class ServerMain {
         ServerMain.conn = connection;
         //допустим здесь начинаем сервер
 
-        int port = 7777;
+        int port = 54105;
         ServerSocket server = null;
         try {
             try {
