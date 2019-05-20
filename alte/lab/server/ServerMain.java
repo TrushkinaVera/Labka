@@ -55,7 +55,17 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Object arg, User usr) {
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException{
+                Human harg = (Human)arg;
+                String sql = "DELETE * FROM objects WHERE login = ? AND  name = ? AND age = ? AND x = ? AND y = ? AND createdate = ?";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, usr.getLogin());
+                preparedStatement.setString(2, harg.getName());
+                preparedStatement.setInt(3, harg.getAge());
+                preparedStatement.setInt(4, harg.getPosX());
+                preparedStatement.setInt(5, harg.getPosY());
+                preparedStatement.setString(6, harg.getDate());
+                int rows = preparedStatement.executeUpdate();
                 return "OK";
             }
         });
