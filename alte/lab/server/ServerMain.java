@@ -12,6 +12,7 @@ public class ServerMain {
     private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";
     private static String USER = "smarts";
     private static String PASS = "difpas2";
+    public static Connection conn;
     public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
     public static String createObjectsBd = new String("Create table if not exists objects(id SERIAL PRIMARY KEY," +
             "login TEXT NOT NULL," +
@@ -24,22 +25,38 @@ public class ServerMain {
     public static Semaphore syncher;
     public static void main(String[] args) {
         cmds = new ArrayList<>();
-        syncher = new Semaphore(1);
-        CollectionCommand reg_checker = new CollectionCommand() {
+        cmds.add(new CollectionCommand() {
             @Override
             public String getName() {
-                return null;
+                return "login";
             }
 
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
-                String sql = "SELECT COUNT() from users WHERE login = ? and pass = ?";
+                String sql = "SELECT * from users WHERE login = ? and pass = ? LIMIT 1";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setString(1, usr.getLogin());
                 preparedStatement.setString(2, usr.getPassword());
-                return new Boolean(false);
+                int rows = preparedStatement.executeUpdate();
+                return (rows == 0) ? (new Boolean(false)) : (new Boolean(true));
             }
-        };
+        });
+        cmds.add(new CollectionCommand() {
+            @Override
+            public String getName() {
+                return "register";
+            }
+
+            @Override
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
+                //TODO: регистрация
+                return null;
+            }
+        });
+
+        syncher = new Semaphore(1);
+
+
         //Adding commands
         cmds.add(new CollectionCommand() {
             @Override
@@ -51,7 +68,7 @@ public class ServerMain {
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
                 Human harg = (Human)arg;
                 String sql = "INSERT INTO objects (login, name, age, x, y, createdate) Values (?, ?, ?, ?, ?, ?)";
-                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, usr.getLogin());
                 preparedStatement.setString(2, harg.getName());
                 preparedStatement.setInt(3, harg.getAge());
@@ -59,7 +76,11 @@ public class ServerMain {
                 preparedStatement.setInt(5, harg.getPosY());
                 preparedStatement.setString(6, harg.getDate().toString());
                 int rows = preparedStatement.executeUpdate();
-                ResultSet razvrat = preparedStatement.getResultSet();
+                if (rows == 0) {
+                    System.out.println("Creating RAZVRAT failed");
+                }
+                ResultSet razvrat = preparedStatement.getGeneratedKeys();
+                razvrat.next();
                 Long id = razvrat.getLong(1);
                 return "Created object with id "+ id;
             }
@@ -137,7 +158,7 @@ public class ServerMain {
             System.out.println("Error creating tables");
             e.printStackTrace();
         }
-
+        ServerMain.conn = connection;
         //допустим здесь начинаем сервер
 
         int port = 7777;

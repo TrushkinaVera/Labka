@@ -16,7 +16,6 @@ import java.util.concurrent.Semaphore;
 public class ServerConnection implements Runnable{
     private Semaphore smp;
     private Socket socket;
-    private Connection conn;
     public ServerConnection(Semaphore smp, Socket socket) {
         System.out.println("new connection detected");
         this.smp = smp;
@@ -43,12 +42,17 @@ public class ServerConnection implements Runnable{
                     smp.acquire();
                     //работаем с чем нам надо
                     Object razvrat = null;
+                    boolean executed = false;
                     try {
                         for (CollectionCommand e : ServerMain.cmds) {
                             if (e.getName().equals(cmd.getText())) {
-                                razvrat = e.doCommand(conn, cmd.getArgument(), input.getUser());
+                                razvrat = e.doCommand(ServerMain.conn, cmd.getArgument(), input.getUser());
+                                executed = true;
                                 break;
                             }
+                        }
+                        if (executed != true) {
+
                         }
                     } catch (SQLException e) {
                         //TODO: todo
