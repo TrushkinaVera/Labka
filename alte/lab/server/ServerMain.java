@@ -12,6 +12,21 @@ import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class ServerMain {
+
+    static boolean auth(Connection conn, String login, String password) {
+        int rows = 0;
+        try {
+            String sql = "SELECT * from users WHERE login = ? and pass = ? LIMIT 1";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, password);
+            rows = preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return !(rows == 0);
+    }
+
     private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";
     private static String USER = "smarts";
     private static String PASS = "difpas2";
@@ -36,12 +51,7 @@ public class ServerMain {
 
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
-                String sql = "SELECT * from users WHERE login = ? and pass = ? LIMIT 1";
-                PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setString(1, usr.getLogin());
-                preparedStatement.setString(2, usr.getPassword());
-                int rows = preparedStatement.executeUpdate();
-                return (rows == 0) ? (new Boolean(false)) : (new Boolean(true));
+                return auth(conn, usr.getLogin(), usr.getPassword());
             }
         });
         cmds.add(new CollectionCommand() {
@@ -122,20 +132,6 @@ public class ServerMain {
 
                 return "OK";
 
-            }
-        });
-        cmds.add(new CollectionCommand() {
-            @Override
-            public String getName() {
-                return "login";
-            }
-
-            @Override
-            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
-                User harg = usr;
-
-                //conn.prepareCall("INSERT INTO object values ('"+harg.getName()+"', "+ harg.getAge()+ ", "+ harg.getPosX() + ", " +harg.getPosY() +")");
-                return "OK";
             }
         });
         cmds.add(new CollectionCommand() {
