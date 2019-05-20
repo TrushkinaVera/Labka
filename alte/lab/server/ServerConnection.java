@@ -1,7 +1,10 @@
 package alte.lab.server;
 
 import alte.lab.Command;
+import alte.lab.connection.Header;
 import alte.lab.connection.Packet;
+import alte.lab.connection.ResponseCode;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -45,8 +48,11 @@ public class ServerConnection implements Runnable{
                         //TODO: todo
                         e.printStackTrace();
                     }
-                    oos.writeObject(razvrat);
+
+                    Packet response = Packet.formPacket(new Pair<>(Header.CODE, razvrat!=null? ResponseCode.OK : ResponseCode.BAD_REQUEST), new Pair<>(Header.DATA, razvrat));
+                    oos.writeObject(response);
                     oos.flush();
+
                     smp.release();
                     //передер
                 }
