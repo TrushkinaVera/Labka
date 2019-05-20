@@ -1,8 +1,11 @@
 <component name="libraryTable">
-  <library name="json-simple-1.1.1">
+  <library name="yuran.us">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/json-simple-1.1.1.jar!/" />
       <root url="jar://$PROJECT_DIR$/postgresql-42.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/javax.mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/mail.jar!/" />
+      <root url="jar://$PROJECT_DIR$/activation.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

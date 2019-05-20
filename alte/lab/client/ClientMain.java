@@ -22,18 +22,18 @@ public class ClientMain {
             connection = new Socket(hostname, port);
             ObjectInputStream in;
             ObjectOutputStream out;
-            System.out.println("Подключаемся к серверу  ...");
+            System.out.println(localization.getString("connecting"));
             in = new ObjectInputStream(connection.getInputStream());
             out = new ObjectOutputStream(connection.getOutputStream());
-            System.out.println("Подключено. Ожидаем отправки команд на сервер...");
+            System.out.println(localization.getString("connected"));
             new Thread(new ConsoleListener(out)).start();
             new Thread(new ServerListner(in)).start();
 
 
         } catch (UnknownHostException e) {
-            System.out.println("Хост не найден");
+            System.out.println(localization.getString("host_down"));
         } catch (IOException e) {
-            System.out.println("Ошибка подключения");
+            System.out.println(localization.getString("connection_error"));
         }
     }
 }
