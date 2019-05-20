@@ -29,9 +29,9 @@ public class ServerMain {
         return !(rows == 0);
     }
 
-    private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";
-    private static String USER = "smarts";
-    private static String PASS = "difpas2";
+    private static String DB_URL = "jdbc:postgresql://pg/studs"; //"jdbc:postgresql://localhost:5432/labaa";
+    private static String USER = "s265097";//"smarts";
+    private static String PASS = "bpk773";//difpas2";
     public static Connection conn;
     public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
     public static String createObjectsBd = new String("Create table if not exists objects(id SERIAL PRIMARY KEY," +
