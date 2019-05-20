@@ -8,9 +8,7 @@ import javafx.util.Pair;
 
 import java.io.*;
 import java.net.Socket;
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.SQLOutput;
 import java.util.concurrent.Semaphore;
 
 public class ServerConnection implements Runnable{
@@ -52,10 +50,11 @@ public class ServerConnection implements Runnable{
                             }
                         }
                         if (executed != true) {
-
+                            razvrat = "Command not found";
                         }
                     } catch (SQLException e) {
-                        //TODO: todo
+                        //TODO: todo say client about
+                        razvrat = "Error while executing SQL";
                         e.printStackTrace();
                     }
 
@@ -76,6 +75,7 @@ public class ServerConnection implements Runnable{
             System.out.println("Кажется, мы сломались");
             ex.printStackTrace();
             System.exit(0);
+
         }
     }
 
