@@ -9,12 +9,11 @@ import java.util.ArrayList;
 import java.util.concurrent.Semaphore;
 
 public class ServerMain {
-    private static String DB_URL = "jdbc:postgresql://uriy.yuran.us:5432/lab7";
-    private static String USER = "blablabla";
-    private static String PASS = "blablabla";
-    public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY,login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
+    private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";
+    private static String USER = "smarts";
+    private static String PASS = "difpas2";
+    public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
     public static String createObjectsBd = new String("Create table if not exists objects(id SERIAL PRIMARY KEY," +
-            "id SERIAL PRIMARY KEY" +
             "login TEXT NOT NULL," +
             "name TEXT NOT NULL UNIQUE," +
             "age int4 NOT NULL," +
@@ -26,7 +25,21 @@ public class ServerMain {
     public static void main(String[] args) {
         cmds = new ArrayList<>();
         syncher = new Semaphore(1);
+        CollectionCommand reg_checker = new CollectionCommand() {
+            @Override
+            public String getName() {
+                return null;
+            }
 
+            @Override
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
+                String sql = "SELECT COUNT() from users WHERE login = ? and pass = ?";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, usr.getLogin());
+                preparedStatement.setString(2, usr.getPassword());
+                return new Boolean(false);
+            }
+        };
         //Adding commands
         cmds.add(new CollectionCommand() {
             @Override
@@ -113,6 +126,17 @@ public class ServerMain {
             e.printStackTrace();
             return;
         }
+        try {
+            Statement stmt;
+            stmt = connection.createStatement();
+            stmt.executeUpdate(createUserBd);
+            stmt = connection.createStatement();
+            stmt.executeUpdate(createObjectsBd);
+        } catch (SQLException e) {
+            System.out.println("Error creating tables");
+            e.printStackTrace();
+        }
+
         //допустим здесь начинаем сервер
 
         int port = 7777;
