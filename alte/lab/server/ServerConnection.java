@@ -47,6 +47,7 @@ public class ServerConnection implements Runnable{
                     User authData = input.getUser();
                     //вот твой инпут пакет
                     Command cmd = input.getCommand();
+                    System.out.println(input.getCommand().getText());
                     if(ServerMain.auth(ServerMain.conn, authData.getLogin(), authData.getPassword()) || "login".equals(cmd.getText()) || "register".equals(cmd.getText())) {
                         System.out.println(input.getCommand().getText());
                         //работаем с чем нам надо
@@ -80,14 +81,15 @@ public class ServerConnection implements Runnable{
             }
         } catch (InterruptedException exception) {
             exception.printStackTrace();
-        } catch (ClassNotFoundException exception) {
-            exception.printStackTrace();
-        }
-        catch (IOException ex) {
+        } catch (EOFException exception) {
+            System.out.println("client disconnected");
+        } catch (IOException ex) {
             System.out.println("Кажется, мы сломались");
             ex.printStackTrace();
             System.exit(0);
 
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

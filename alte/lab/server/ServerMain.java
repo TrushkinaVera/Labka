@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
@@ -29,9 +30,9 @@ public class ServerMain {
         return !(rows == 0);
     }
 
-    private static String DB_URL = "jdbc:postgresql://pg/studs"; //"jdbc:postgresql://localhost:5432/labaa";
-    private static String USER = "s";//"s";//"smarts";
-    private static String PASS = "b";//difpas2";
+    private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";//"jdbc:postgresql://pg/studs";
+    private static String USER = "smarts";//"s";//"smarts";
+    private static String PASS = "difpas2";//difpas2";
     public static Connection conn;
     public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
     public static String createObjectsBd = new String("Create table if not exists objects(id SERIAL PRIMARY KEY," +
@@ -44,6 +45,8 @@ public class ServerMain {
     public static ArrayList<CollectionCommand> cmds;
     public static Semaphore syncher;
     public static void main(String[] args) {
+
+        syncher = new Semaphore(1);
         cmds = new ArrayList<>();
         cmds.add(new CollectionCommand() {
             @Override
@@ -54,6 +57,37 @@ public class ServerMain {
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
                 return Boolean.toString(auth(conn, usr.getLogin(), usr.getPassword()));
+            }
+        });
+        cmds.add(new CollectionCommand() {
+
+            @Override
+            public String getName() {
+                return "show";
+            }
+
+            @Override
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
+
+                String sql = "SELECT * from objects where login = ?";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, usr.getLogin());
+                ResultSet s = preparedStatement.executeQuery();
+                int id, x, y, age;
+                String login, name, date;
+
+                HashMap<Integer, Human> result = new HashMap<Integer, Human>();
+                while (s.next() != false) {
+                    id = s.getInt("id");
+                    x = s.getInt("x");
+                    y = s.getInt("y");
+                    age = s.getInt("age");
+                    name = s.getString("name");
+                    login = s.getString("login");
+                    date = s.getString("createdate");
+                    result.put(new Integer(id), new Human(name, age, x, y));
+                }
+                return null;
             }
         });
         cmds.add(new CollectionCommand() {
@@ -87,7 +121,6 @@ public class ServerMain {
             }
         });
 
-        syncher = new Semaphore(1);
 
 
         //Adding commands
