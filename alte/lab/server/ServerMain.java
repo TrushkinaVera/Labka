@@ -6,10 +6,7 @@ import alte.lab.User;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.Semaphore;
 
 public class ServerMain {
@@ -76,7 +73,7 @@ public class ServerMain {
                 int id, x, y, age;
                 String login, name, date;
 
-                HashMap<Integer, Human> result = new HashMap<Integer, Human>();
+                Map<Integer, Human> result = new HashMap<>();
                 while (s.next() != false) {
                     id = s.getInt("id");
                     x = s.getInt("x");

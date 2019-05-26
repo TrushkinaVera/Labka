@@ -10,7 +10,7 @@ public class Mail {
     public static void mail(String destination, String subject, String content) {
         final String sendrmailid = "ananas@yuran.us";
         final String pwd = "dmVyeSB0b3AgcGFzc3dvcmQ=";
-        String smtphost = "uriy.yuran.us";
+        String smtphost = "smtp.yandex.ru";
 
         Properties propvls = new Properties();
         propvls.put("mail.smtp.host", smtphost);

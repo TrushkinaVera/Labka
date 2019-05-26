@@ -35,50 +35,49 @@ public class ServerListner implements Runnable{
 
     @Override
     public void run() {
-        try {
+
             Packet input;
             while (true) {
-                if ((input = (Packet) in.readObject()) != null) {
-                    ResponseCode code = input.getReponseCode();
-                    switch(code) {
-                        case OK:
-                            System.out.println(input.getStringResponse());
-                            break;
-                        case UNATHORIZED:
-                        case BAD_REQUEST:
-                            System.out.println(code.getMessage(localization));
-                            break;
-                        default:
-                            System.out.println("ping got");
-                            break;
+                try {
+                    if ((input = (Packet) in.readObject()) != null) {
+                        ResponseCode code = input.getReponseCode();
+                        switch (code) {
+                            case OK:
+                                System.out.println(input.getStringResponse());
+                                break;
+                            case UNATHORIZED:
+                            case BAD_REQUEST:
+                                System.out.println(code.getMessage(localization));
+                                break;
+                            default:
+                                System.out.println("ping got");
+                                break;
+                        }
                     }
-                }
-            }
-        } catch (EOFException e) {
-            try {
-                conn.close();
-                System.out.println(localization.getString("lost_conn"));
-                System.out.println("reconnecting");
-                while (true) {
+                } catch (EOFException e) {
                     try {
-                        conn = new Socket(hostname, port);
-                        System.out.println("Creating IN");
-                        this.in = new ObjectInputStream(conn.getInputStream());
-                        System.out.println("IN " + in.available());
-                        ClientMain.reconnected = true;
-                        ClientMain.connection = conn;
-                        break;
-                    } catch (IOException d) {
-                        continue;
+                        conn.close();
+                        System.out.println(localization.getString("lost_conn"));
+                        System.out.println("reconnecting");
+                        while (true) {
+                            try {
+                                conn = new Socket(hostname, port);
+                                System.out.println("Creating IN");
+                                this.in = new ObjectInputStream(conn.getInputStream());
+                                System.out.println("IN " + in.available());
+                                ClientMain.reconnected = true;
+                                ClientMain.connection = conn;
+                                break;
+                            } catch (IOException d) {
+                                continue;
+                            }
+                        }
+                    } catch (Exception d) {
+                        d.printStackTrace();
                     }
+                } catch (IOException | ClassNotFoundException | NullPointerException e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception d) {
-                d.printStackTrace();
             }
-        }
-        catch (IOException | ClassNotFoundException | NullPointerException e) {
-            e.printStackTrace();
-        }
-
     }
 }

@@ -64,7 +64,8 @@ public class ConsoleListener implements Runnable{
                 }
                 else System.out.println(localization.getString("auth_null"));
             } catch (IOException e) {
-
+                e.printStackTrace();
+                System.out.println("ты хуй");
             } catch (NullPointerException e) {
                 System.out.println(localization.getString("wrong_command"));
                 //e.printStackTrace();
