@@ -1,5 +1,6 @@
 package alte.lab.client;
 
+import alte.lab.Human;
 import alte.lab.connection.Packet;
 import alte.lab.connection.ResponseCode;
 
@@ -9,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.HashMap;
 import java.util.concurrent.Exchanger;
 
 import static alte.lab.client.ClientMain.localization;
@@ -43,6 +45,7 @@ public class ServerListner implements Runnable{
                         ResponseCode code = input.getReponseCode();
                         switch (code) {
                             case OK:
+                                String data = input.getStringResponse();
                                 System.out.println(input.getStringResponse());
                                 break;
                             case UNATHORIZED:

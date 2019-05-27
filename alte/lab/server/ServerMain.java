@@ -6,6 +6,8 @@ import alte.lab.User;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.*;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.Semaphore;
 
@@ -57,6 +59,17 @@ public class ServerMain {
             }
         });
         cmds.add(new CollectionCommand() {
+            @Override
+            public String getName() {
+                return "info";
+            }
+
+            @Override
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
+                return "Sounds like i've to say something about this database, but i won't.";
+            }
+        });
+        cmds.add(new CollectionCommand() {
 
             @Override
             public String getName() {
@@ -73,18 +86,23 @@ public class ServerMain {
                 int id, x, y, age;
                 String login, name, date;
 
-                Map<Integer, Human> result = new HashMap<>();
+                StringBuilder result = new StringBuilder();
                 while (s.next() != false) {
                     id = s.getInt("id");
                     x = s.getInt("x");
                     y = s.getInt("y");
                     age = s.getInt("age");
                     name = s.getString("name");
-                    login = s.getString("login");
                     date = s.getString("createdate");
-                    result.put(new Integer(id), new Human(name, age, x, y));
+                    Human worker = new Human(name, age, x, y);
+                    result.append("[ID: ");
+                    result.append(id);
+                    result.append("] ");
+                    result.append(worker);
+                    result.append(" " + date + "\n");
+
                 }
-                return null;
+                return (result.toString().length() == 0) ? ("No objects created by you detected\n") : (result.toString());
             }
         });
         cmds.add(new CollectionCommand() {
@@ -157,12 +175,14 @@ public class ServerMain {
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException{
                 Integer harg = (Integer) arg;
-                String sql = "DELETE * FROM user WHERE id=?";
+                System.out.println(harg);
+                String sql = "DELETE FROM objects WHERE id=?";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, harg);
+                //conn.commit();
                 int rows = preparedStatement.executeUpdate();
 
-                return (rows > 0 ? "OK" : "Not found");
+                return (rows > 0 ? "Successful delete!" : "Watafack?");
 
             }
         });
@@ -198,7 +218,14 @@ public class ServerMain {
             return;
         }
         try {
+
             Statement stmt;
+
+           /* stmt = connection.createStatement();
+            stmt.executeUpdate("Truncate table users");
+            stmt = connection.createStatement();
+            stmt.executeUpdate("Truncate table objects");
+            */
             stmt = connection.createStatement();
             stmt.executeUpdate(createUserBd);
             stmt = connection.createStatement();

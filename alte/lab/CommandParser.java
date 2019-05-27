@@ -83,7 +83,11 @@ public class CommandParser {
         try{
             String cmd = d.toLowerCase();
             int start = d.indexOf(" ");
+            if (start == -1) start = cmd.length();
             cmd = cmd.substring(0, start);
+            if (cmd.toLowerCase().equals("info") || cmd.toLowerCase().equals("show")) {
+                return new Command(cmd, null);
+            }
             String JData = d.substring(start+1).trim();
             Human hArg;
             User uArg;

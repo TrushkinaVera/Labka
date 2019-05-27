@@ -50,6 +50,14 @@ public class Human implements Serializable, Comparable<Human> {
         return id;
     }
 
+    public OffsetDateTime gettTime() {
+        return tTime;
+    }
+
+    public void settTime(OffsetDateTime tTime) {
+        this.tTime = tTime;
+    }
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -91,7 +99,7 @@ public class Human implements Serializable, Comparable<Human> {
 
     @Override
     public String toString() {
-        return "alte.lab.Human: "+name +", "+ Integer.toString(age) +" years old, Position:[" + Double.toString(xPos)+";"+Double.toString(yPos)+"]";
+        return "Human: " + name + ", " + Integer.toString(age) + " years old, Position:[" + Double.toString(xPos) + ";" + Double.toString(yPos) + "]";
         //return super.toString();
     }
 }
