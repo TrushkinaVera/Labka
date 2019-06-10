@@ -1,0 +1,12 @@
+#main_pane {
+    -fx-background-color: white;
+}
+
+Button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-pref-width: 350px;
+    -fx-end-margin: 0;
+    -fx-start-margin: 0;
+    -fx-padding:10px;
+}

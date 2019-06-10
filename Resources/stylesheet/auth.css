@@ -1,0 +1,23 @@
+#auth_pane {
+    -fx-background-color: white;
+}
+
+#middle_image {
+    -fx-background-color:red;
+}
+
+Button {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+    -fx-pref-width: 350px;
+    -fx-end-margin: 0;
+    -fx-start-margin: 0;
+}
+
+TextField, PasswordField, Button {
+    -fx-padding:10px;
+}
+
+#middle_space {
+    -fx-padding:10px;
+}
