@@ -19,11 +19,15 @@ import static alte.lab.client.ClientMain.*;
 public class ConsoleListener implements Runnable{
     private ObjectOutputStream out;
     private Socket conn;
-    public ConsoleListener(Socket connection) {
+    private boolean console;
+
+    public ConsoleListener(Socket connection, boolean console) {
         try {
             this.conn = connection;
             this.out = new ObjectOutputStream(connection.getOutputStream());
             this.out.flush();
+
+            this.console = console;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -33,43 +37,67 @@ public class ConsoleListener implements Runnable{
     public void run() {
         Scanner reader = new Scanner(System.in);
         String input;
-        while(true){
 
-            input = reader.nextLine();
-            if (ClientMain.reconnected) {
-                try {
-                    this.conn = connection;
-                    this.out = new ObjectOutputStream(conn.getOutputStream());
-                    reconnected = false;
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if (console) {
+            while (true) {
+
+                input = reader.nextLine();
+                if (ClientMain.reconnected) {
+                    try {
+                        this.conn = connection;
+                        this.out = new ObjectOutputStream(conn.getOutputStream());
+                        reconnected = false;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+                System.out.println(parseCommand(input));
             }
-            Command cmd = CommandParser.parse(input);
-            try {
-                if ("login".equals(cmd.getText())) {
-                    auth = (User) cmd.getArgument();
-                    System.out.println(localization.getString("auth_saved"));
-                }
-                else if ("register".equals(cmd.getText())) {
-                    auth = new User((String)cmd.getArgument());
-                    System.out.println(localization.getString("try_register"));
-                }
+        } else { //UI
 
-
-                if(ClientMain.auth != null) {
-                    Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));
-                    out.writeObject(packet);
-                    out.flush();
+            while (true) {
+                if (ClientMain.reconnected) {
+                    try {
+                        this.conn = connection;
+                        this.out = new ObjectOutputStream(conn.getOutputStream());
+                        reconnected = false;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-                else System.out.println(localization.getString("auth_null"));
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("ты хуй");
-            } catch (NullPointerException e) {
-                System.out.println(localization.getString("wrong_command"));
-                //e.printStackTrace();
             }
         }
+    }
+
+    String parseCommand(String input) {
+        if(!ClientMain.reconnected) return localization.getString("lost_conn");
+
+        try {
+            Command cmd = CommandParser.parse(input);
+            if ("login".equals(cmd.getText())) {
+                auth = (User) cmd.getArgument();
+                return localization.getString("auth_saved");
+            }
+            else if ("register".equals(cmd.getText())) {
+                auth = new User((String)cmd.getArgument());
+                return  localization.getString("try_register");
+            }
+
+
+            if(ClientMain.auth != null) {
+                Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));
+                out.writeObject(packet);
+                out.flush();
+            }
+            else return localization.getString("auth_null");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return  "ты хуй";
+        } catch (NullPointerException e) {
+            return localization.getString("wrong_command");
+        }
+
+        return localization.getString("everything_is_ok");
     }
 }

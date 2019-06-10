@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="ProgLab7_New:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/ProgLab7_New_jar</output-path>
+    <root id="archive" name="ProgLab7_New.jar">
+      <element id="module-output" name="ProgLab7_New" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/json-simple-1.1.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/postgresql-42.2.5.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/javax.mail.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/mail.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/activation.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
