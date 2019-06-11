@@ -70,7 +70,7 @@ public class ConsoleListener implements Runnable{
     }
 
     String parseCommand(String input) {
-        if(!ClientMain.reconnected) return localization.getString("lost_conn");
+        //if(ClientMain.reconnected == false) return localization.getString("lost_conn");
 
         try {
             Command cmd = CommandParser.parse(input);

@@ -29,7 +29,7 @@ public class ServerMain {
         return !(rows == 0);
     }
 
-    private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";//"jdbc:postgresql://pg/studs";
+    private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";//"jdbc:postgresql://pg/studs";//
     private static String USER = "smarts";//"s";//"smarts";
     private static String PASS = "difpas2";//difpas2";
     public static Connection conn;
@@ -79,9 +79,8 @@ public class ServerMain {
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
 
-                String sql = "SELECT * from objects where login = ?";
+                String sql = "SELECT * from objects";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setString(1, usr.getLogin());
                 ResultSet s = preparedStatement.executeQuery();
                 int id, x, y, age;
                 String login, name, date;
@@ -176,9 +175,10 @@ public class ServerMain {
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException{
                 Integer harg = (Integer) arg;
                 System.out.println(harg);
-                String sql = "DELETE FROM objects WHERE id=?";
+                String sql = "DELETE FROM objects WHERE id=? and login=?";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
                 preparedStatement.setInt(1, harg);
+                preparedStatement.setString(2, usr.getLogin());
                 //conn.commit();
                 int rows = preparedStatement.executeUpdate();
 

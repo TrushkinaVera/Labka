@@ -11,7 +11,8 @@ import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Packet implements SerAble {
+public class
+Packet implements SerAble {
     /**
      * Информация от сервера
      */

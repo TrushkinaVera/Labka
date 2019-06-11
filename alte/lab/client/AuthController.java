@@ -30,6 +30,8 @@ public class AuthController {
         Pair<String, String> response = auth.apply(login.getText(), password.getText());
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        System.out.println(response.getKey());
+        System.out.println(response.getValue());
         alert.setTitle(response.getKey());
         alert.setContentText(response.getValue());
         alert.showAndWait();

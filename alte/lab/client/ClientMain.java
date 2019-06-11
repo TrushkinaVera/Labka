@@ -1,5 +1,7 @@
 package alte.lab.client;
 
+import alte.lab.Command;
+import alte.lab.CommandParser;
 import alte.lab.Pair;
 import alte.lab.User;
 import alte.lab.localization.Localization;
@@ -27,7 +29,7 @@ public class ClientMain extends Application {
     public static boolean reconnected = false;
     public static Socket connection;
     public static ConsoleListener consoleCommandListener;
-
+    public static ObjectOutputStream out;
     public static void main(String[] args) {
 
         Socket connection;
@@ -36,8 +38,9 @@ public class ClientMain extends Application {
             connection = new Socket(hostname, port);
             System.out.println(localization.getString("connecting"));
 
-            consoleCommandListener = new ConsoleListener(connection, false);
-            new Thread(consoleCommandListener).start();
+            //consoleCommandListener = new ConsoleListener(connection, false);
+            //new Thread(consoleCommandListener).start();
+            out = new ObjectOutputStream(connection.getOutputStream());
             new Thread(new ServerListner(connection, hostname, port)).start();
 
             System.out.println(localization.getString("connected"));
@@ -53,7 +56,13 @@ public class ClientMain extends Application {
 
     }
 
-
+    public void processCommand(Command cmd) {
+        try {
+            out.writeObject(cmd);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void start(Stage stage) {
@@ -75,8 +84,14 @@ public class ClientMain extends Application {
                     try {
                         StringBuilder command = new StringBuilder();
                         command.append("login {'Login':'").append(s).append("', 'Password':'").append(s2).append("'}");
-                        response = consoleCommandListener.parseCommand(command.toString());
-
+                        Command razvrat = CommandParser.parse(command.toString());
+                        razvrat = new Command("", new User());
+                        out.writeObject(razvrat)
+                        out.flush();
+                        if (razvrat == null) throw new Exception(localization.getString("wrong_command"));
+                        System.out.println(razvrat.getText());
+                        //response = consoleCommandListener.parseCommand(command.toString());
+                        System.out.println(response);
                         if(response.equals(localization.getString("everything_is_ok"))) {
 
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
@@ -94,6 +109,7 @@ public class ClientMain extends Application {
                         }
                     }
                     catch(Exception e) {
+                        e.printStackTrace();
                         response = e.getMessage();
                     }
 
@@ -103,8 +119,10 @@ public class ClientMain extends Application {
                 String response = "";
                 try {
                     response = consoleCommandListener.parseCommand("login {'Login':'" + s + "'}");
+                    //System.out.println(response.toString());
                 }
                 catch(Exception e) {
+                    e.printStackTrace();
                     response = e.getMessage();
                 }
 
