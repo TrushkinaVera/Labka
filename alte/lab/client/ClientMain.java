@@ -1,6 +1,7 @@
 package alte.lab.client;
 
 import alte.lab.Command;
+import alte.lab.Human;
 import alte.lab.Pair;
 import alte.lab.User;
 import alte.lab.connection.Header;
@@ -9,20 +10,18 @@ import alte.lab.connection.ResponseCode;
 import alte.lab.localization.Localization;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.EventHandler;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import static alte.lab.connection.ResponseCode.OK;
@@ -83,6 +82,7 @@ public class ClientMain extends Application {
                 Scene scene = new Scene(root);
 
                 MainController controller = loader.getController();
+                mainFrame = controller;
                 controller.drawCanvas(new Callable() {
                     @Override
                     public Object call() throws Exception {
@@ -119,6 +119,7 @@ public class ClientMain extends Application {
         stage.show();
 
         AuthController controller = loader.getController();
+        controller.setAuthData("saleen658@gmail.com","hZy+b0ky1vABeE/g5GiaYg==");
         controller.setListeners((s, s2) -> {
 
             try {
@@ -173,6 +174,9 @@ public class ClientMain extends Application {
                     case "register":
                         break;
                     case "show":
+                        List<Human> humans = (ArrayList<Human>)input.getResponse();
+                        System.out.println(humans);
+                        mainFrame.setPlayers(humans);
                         break;
                 }
 
@@ -181,8 +185,8 @@ public class ClientMain extends Application {
                 ResponseCode code = input.getReponseCode();
                 switch (code) {
                     case OK:
-                        String data = input.getStringResponse();
-                        mainFrame.addLogs(data);
+                        //String data = input.getStringResponse();
+                        //mainFrame.addLogs(data);
                         break;
                     case UNATHORIZED:
                     case BAD_REQUEST:

@@ -55,16 +55,16 @@ Packet implements SerAble {
     /**
      * Получить ответ сервера
      */
-    public Object getRsponse() {
+    public Object getResponse() {
         return getData(Header.DATA);
     }
 
     public String getStringResponse() {
-        return (String) getRsponse();
+        return (String) getResponse();
     }
 
     public Integer getIntResponse() {
-        return (Integer) getRsponse();
+        return (Integer) getResponse();
     }
 
     /**

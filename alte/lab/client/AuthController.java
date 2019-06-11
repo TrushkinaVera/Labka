@@ -35,4 +35,9 @@ public class AuthController {
     protected void register(ActionEvent event) {
         register_listener.accept(mail.getText());
     }
+
+    public void setAuthData(String login , String password) {
+        this.login.setText(login);
+        this.password.setText(password);
+    }
 }

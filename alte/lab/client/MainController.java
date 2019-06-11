@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -22,6 +24,8 @@ public class MainController {
     @FXML private Canvas main_canvas;
     @FXML private TextArea logs;
     private double position_x = 1125, position_y = 1275, position_z = 0;
+
+    @FXML private TextField nick, x, y, age;
 
     private Callable updateList;
     private List<Human> humans;
@@ -47,18 +51,41 @@ public class MainController {
         return (min_zoom + (position_z + zoom_value) / (zoom_value * 2) * (max_zoom - min_zoom));
     }
 
+    final private double man_size = 20.0;
     void redraw() {
         double side = 3000 * getSize();
         gc.drawImage(map, position_x, position_y, side, side, 0, 0, 3000, 3000);
 
+        double new_man_size = Math.max(man_size, man_size/getSize());
         for(Human human : humans) {
-            gc.setFill(Color.BLACK);
-            gc.fillRect(human.getPosX()*getSize(), human.getPosY()*getSize(), 10.0*getSize(), 10.0*getSize());
+            if(human.getAge() < 10) gc.setFill(Color.RED);
+            else if(human.getAge() < 20) gc.setFill(Color.GREEN);
+            else if(human.getAge() < 30) gc.setFill(Color.PURPLE);
+            else if(human.getAge() < 40) gc.setFill(Color.CYAN);
+            else if(human.getAge() < 50) gc.setFill(Color.YELLOW);
+            else if(human.getAge() < 60) gc.setFill(Color.WHITE);
+            else gc.setFill(Color.BLACK);
+            gc.fillRect(-position_x/getSize()+(1500 + human.getPosX())/getSize(), -position_y/getSize()+(1500 + human.getPosY())/getSize(), new_man_size, new_man_size);
         }
+    }
+
+    @FXML protected void addMan(ActionEvent event) {
+        humans.add(new Human("Ыыы", Integer.parseInt(age.getText()), Integer.parseInt(x.getText()), Integer.parseInt(y.getText())));
+        redraw();
     }
 
     void drawCanvas(Callable onUpdate) {
         updateList = onUpdate;
+        humans = new ArrayList<>();
+        humans.add(new Human("Ыыы", 20, -200, 750));
+        humans.add(new Human("Ыыы", 11, 790, -200));
+        humans.add(new Human("Ыыы", 30, 900, 100));
+        humans.add(new Human("Ыыы", 40, 200, 200));
+        humans.add(new Human("Ыыы", 50, -500, -500));
+        humans.add(new Human("Ыыы", 0, -1000, -1000));
+        humans.add(new Human("Ыыы", 5, 1000,1000));
+        humans.add(new Human("Ыыы", 55, 500, -300));
+        humans.add(new Human("Ыыы", 70, 10, 10));
 
         gc = main_canvas.getGraphicsContext2D();
         map = new Image("/map.png");
@@ -118,6 +145,7 @@ public class MainController {
 
     void setPlayers(List<Human> humans) {
         this.humans = humans;
+        redraw();
     }
 
     void addLogs(String log_string) {

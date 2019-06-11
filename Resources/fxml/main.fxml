@@ -4,6 +4,11 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableRow?>
+<?import javafx.scene.control.TableCell?>
+<?import javafx.scene.control.TextField?>
 <GridPane id="main_pane"
           xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
@@ -29,7 +34,5 @@
               GridPane.rowIndex="2"
               GridPane.columnIndex="0"
               disable="true" prefHeight="200" prefWidth="300"/>
-
-
 
 </GridPane>
