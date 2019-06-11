@@ -17,12 +17,22 @@
 
     <HBox alignment="CENTER"
           GridPane.columnIndex="0"
-          GridPane.rowIndex="0">
+          GridPane.rowIndex="0"
+          GridPane.columnSpan="2">
         <Button onAction="#ResetParams">Очистить размер и положение</Button>
     </HBox>
 
     <Canvas fx:id="main_canvas"
                     GridPane.columnIndex="0"
                     GridPane.rowIndex="1"
+                    GridPane.columnSpan="2"
                     width="750" height="450"/>
+
+    <TextArea id="logs"
+              GridPane.rowIndex="2"
+              GridPane.columnIndex="0"
+              disable="true"/>
+
+
+
 </GridPane>

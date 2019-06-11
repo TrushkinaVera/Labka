@@ -19,6 +19,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import static alte.lab.connection.ResponseCode.OK;
+
 public class ClientMain extends Application {
     public static String hostname = "uriy.yuran.us";
     public static int port = 54105;
@@ -27,6 +29,7 @@ public class ClientMain extends Application {
     public static boolean reconnected = false;
     public static Socket connection;
     public static ObjectOutputStream out;
+    public static MainController mainFrame = null;
 
     public static void alert(String header, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -45,18 +48,38 @@ public class ClientMain extends Application {
 
             out = new ObjectOutputStream(connection.getOutputStream());
             new Thread(new ServerListner(connection, hostname, port, input -> {
+
+                switch(input.getCommand().getText()) {
+                    case "login":
+
+                        if(input.getReponseCode() == OK) {
+
+                        }
+                        else {
+
+                        }
+
+                        break;
+                    case "register":
+                        break;
+                    case "show":
+                        break;
+                }
+
+                if(mainFrame == null) return;
+
                 ResponseCode code = input.getReponseCode();
                 switch (code) {
                     case OK:
                         String data = input.getStringResponse();
-                        alert("Команда", data);
+                        mainFrame.addLogs(data);
                         break;
                     case UNATHORIZED:
                     case BAD_REQUEST:
-                        alert("Code", code.getMessage(localization));
+                        mainFrame.addLogs(code.getMessage(localization));
                         break;
                     default:
-                        alert("ping pong", "ping got");
+                        mainFrame.addLogs("ping got");
                         break;
                 }
             })).start();

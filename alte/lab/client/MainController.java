@@ -5,13 +5,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 
 public class MainController {
-    @FXML
-    private Canvas main_canvas;
+    @FXML private Canvas main_canvas;
+    @FXML private TextArea logs;
     private double oldx = 0, oldy = 0, oldz = 0;
 
     @FXML
@@ -77,6 +78,11 @@ public class MainController {
     /* --------------------------- */
 
     void setPlayers() {
+
+    }
+
+    void addLogs(String log_string) {
+        logs.setText(log_string+"\r\n"+logs.getText());
     }
 
 }
