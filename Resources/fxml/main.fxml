@@ -1,24 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.*?>
 <GridPane id="main_pane"
           xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="alte.lab.client.MainController"
-          prefHeight="750" prefWidth="750.0"  hgap="10" vgap="10"
+          prefHeight="750" prefWidth="750.0"
           stylesheets="/stylesheet/main.css">
 
     <HBox alignment="CENTER"
           GridPane.columnIndex="0"
           GridPane.rowIndex="0"
-          GridPane.columnSpan="2">
+          GridPane.columnSpan="2" prefHeight="50">
         <Button onAction="#ResetParams">Очистить размер и положение</Button>
     </HBox>
 
@@ -31,7 +27,7 @@
     <TextArea id="logs"
               GridPane.rowIndex="2"
               GridPane.columnIndex="0"
-              disable="true"/>
+              disable="true" prefHeight="200" prefWidth="300"/>
 
 
 

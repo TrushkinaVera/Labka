@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Semaphore;
 
@@ -87,7 +88,8 @@ public class ServerMain {
                 int id, x, y, age;
                 String login, name, date;
 
-                StringBuilder result = new StringBuilder();
+                //StringBuilder result = new StringBuilder();
+                List<Human> humans = new ArrayList<>();
                 while (s.next() != false) {
                     id = s.getInt("id");
                     x = s.getInt("x");
@@ -96,14 +98,15 @@ public class ServerMain {
                     name = s.getString("name");
                     date = s.getString("createdate");
                     Human worker = new Human(name, age, x, y);
-                    result.append("[ID: ");
+
+                    humans.add(worker);
+                    /*result.append("[ID: ");
                     result.append(id);
                     result.append("] ");
                     result.append(worker);
-                    result.append(" " + date + "\n");
-
+                    result.append(" " + date + "\n");*/
                 }
-                return (result.toString().length() == 0) ? ("No objects created by you detected\n") : (result.toString());
+                return humans;
             }
         });
         cmds.add(new CollectionCommand() {

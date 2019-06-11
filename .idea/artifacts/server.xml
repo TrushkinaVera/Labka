@@ -11,6 +11,7 @@
       <element id="extracted-dir" path="$PROJECT_DIR$/javax.mail.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/mail.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$PROJECT_DIR$/javax.activation-api-1.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/activation.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

@@ -9,6 +9,7 @@ import alte.lab.connection.ResponseCode;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.sql.SQLException;
 import java.util.concurrent.Semaphore;
 
@@ -82,13 +83,14 @@ public class ServerConnection implements Runnable {
             }
         } catch (InterruptedException exception) {
             exception.printStackTrace();
+        } catch(SocketException e) {
+            e.printStackTrace();
         } catch (EOFException exception) {
             System.out.println("client disconnected");
         } catch (IOException ex) {
             System.out.println("Кажется, мы сломались");
             ex.printStackTrace();
             System.exit(0);
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
