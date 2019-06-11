@@ -9,7 +9,8 @@
           xmlns:fx="http://javafx.com/fxml"
           fx:controller="alte.lab.client.MainController"
           prefHeight="750" prefWidth="750.0"
-          stylesheets="/stylesheet/main.css">
+          stylesheets="/stylesheet/main.css"
+          onKeyReleased="#keyPressed">
 
     <HBox alignment="CENTER"
           GridPane.columnIndex="0"

@@ -1,5 +1,6 @@
 package alte.lab.client;
 
+import alte.lab.Human;
 import alte.lab.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,17 +9,22 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.paint.Color;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 public class MainController {
     @FXML private Canvas main_canvas;
     @FXML private TextArea logs;
     private double position_x = 1125, position_y = 1275, position_z = 0;
 
-    private List<User> users;
+    private Callable updateList;
+    private List<Human> humans;
 
     @FXML
     protected void ResetParams(ActionEvent event) {
@@ -44,9 +50,16 @@ public class MainController {
     void redraw() {
         double side = 3000 * getSize();
         gc.drawImage(map, position_x, position_y, side, side, 0, 0, 3000, 3000);
+
+        for(Human human : humans) {
+            gc.setFill(Color.BLACK);
+            gc.fillRect(human.getPosX()*getSize(), human.getPosY()*getSize(), 10.0*getSize(), 10.0*getSize());
+        }
     }
 
-    void drawCanvas() {
+    void drawCanvas(Callable onUpdate) {
+        updateList = onUpdate;
+
         gc = main_canvas.getGraphicsContext2D();
         map = new Image("/map.png");
         ResetParams(null);
@@ -93,8 +106,18 @@ public class MainController {
 
     /* --------------------------- */
 
-    void setPlayers() {
+    @FXML protected void keyPressed(KeyEvent event) {
+        if(event.getCode() == KeyCode.TAB) {
+            try {
+                updateList.call();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    void setPlayers(List<Human> humans) {
+        this.humans = humans;
     }
 
     void addLogs(String log_string) {

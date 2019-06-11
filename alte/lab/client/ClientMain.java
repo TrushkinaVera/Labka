@@ -10,6 +10,7 @@ import alte.lab.localization.Localization;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.concurrent.Callable;
 
 import static alte.lab.connection.ResponseCode.OK;
 
@@ -46,6 +48,7 @@ public class ClientMain extends Application {
 
         Application.launch(args);
     }
+
 
     /*
     if(cmd != null) {
@@ -79,16 +82,18 @@ public class ClientMain extends Application {
                 Parent root = loader.load();
                 Scene scene = new Scene(root);
 
-                scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                    public void handle(KeyEvent ke) {
-                        if (ke.getCode() == KeyCode.TAB) {
+                MainController controller = loader.getController();
+                controller.drawCanvas(new Callable() {
+                    @Override
+                    public Object call() throws Exception {
 
-                        }
+                        Command cmd = new Command("show", auth);
+                        Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));
+                        out.writeObject(packet);
+                        out.flush();
+                        return null;
                     }
                 });
-
-                MainController controller = loader.getController();
-                controller.drawCanvas();
 
                 stage.setResizable(resize);
                 stage.setWidth(sx);
