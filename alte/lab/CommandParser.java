@@ -2,11 +2,10 @@ package alte.lab;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 public class CommandParser {
 
-    private static Human decodeHumanArgument(String d){
+    private static Human decodeHumanArgument(String d) {
         try {
             JSONParser parser = new JSONParser();
             JSONObject JValues;
@@ -27,13 +26,13 @@ public class CommandParser {
             return true;
         }*/
             return new Human(Name, Age, x, y);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
 
     }
-    private static Integer decodeIdArgument(String d){
+
+    private static Integer decodeIdArgument(String d) {
         try {
             JSONParser parser = new JSONParser();
             JSONObject JValues;
@@ -43,18 +42,18 @@ public class CommandParser {
             return true;
         }*/
 
-            Integer Id = new Integer (((Long) JValues.get("ID")).intValue());
+            Integer Id = new Integer(((Long) JValues.get("ID")).intValue());
         /*catch (NullPointerException e2){
             pushMessage("Missing arguments");
             return true;
         }*/
             return Id;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
-    private static User decodeUserArgument(String d){
+
+    private static User decodeUserArgument(String d) {
         try {
             JSONParser parser = new JSONParser();
             JSONObject JValues;
@@ -66,21 +65,19 @@ public class CommandParser {
             User razvrat = new User(login);
             razvrat.hashAndSetPassword(password);
             return razvrat;//ДЕЛАЮТ РАЗВРАТЫ В ТРЕНАЖЕРНОМ ЗАЛЕ
-        }
-        catch (NullPointerException e){
+        } catch (NullPointerException e) {
             return null;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return null;
         }
     }
+
     /**
-     *
      * @param d входная команда из консоли
      * @return возвращает объект alte.lab.Command, который содержит в себе аргумент соответствующего типа
      */
-    public static Command parse(String d){
-        try{
+    public static Command parse(String d) {
+        try {
             String cmd = d.toLowerCase();
             int start = d.indexOf(" ");
             if (start == -1) start = cmd.length();
@@ -88,24 +85,21 @@ public class CommandParser {
             if (cmd.toLowerCase().equals("info") || cmd.toLowerCase().equals("show")) {
                 return new Command(cmd, null);
             }
-            String JData = d.substring(start+1).trim();
+            String JData = d.substring(start + 1).trim();
             Human hArg;
             User uArg;
             Integer iArg;
             hArg = decodeHumanArgument(JData);
             uArg = decodeUserArgument(JData);
             iArg = decodeIdArgument(JData);
-            if(hArg != null){
+            if (hArg != null) {
                 return new Command(cmd, hArg);
-            }
-            else if (uArg != null){
+            } else if (uArg != null) {
                 return new Command(cmd, uArg);
-            }
-            else if(iArg != null){
-                return  new Command(cmd, iArg);
+            } else if (iArg != null) {
+                return new Command(cmd, iArg);
             } else return new Command(cmd, JData);
-        }
-        catch(StringIndexOutOfBoundsException e){
+        } catch (StringIndexOutOfBoundsException e) {
             return null;
         }
     }

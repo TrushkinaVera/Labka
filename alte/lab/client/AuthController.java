@@ -2,41 +2,37 @@ package alte.lab.client;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
-import alte.lab.Pair;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class AuthController {
-    @FXML private TextField login;
-    @FXML private PasswordField password;
+    @FXML
+    private TextField login;
+    @FXML
+    private PasswordField password;
 
-    @FXML private TextField mail;
+    @FXML
+    private TextField mail;
 
-    private BiFunction<String, String, Pair<String, String>> auth;
-    private Function<String, Pair<String, String>> register;
+    private BiConsumer<String, String> auth_listener;
+    private Consumer<String> register_listener;
 
-    void setListeners(BiFunction<String, String, Pair<String, String>> auth,
-                      Function<String, Pair<String, String>> register) {
-        this.auth = auth;
-        this.register = register;
+    void setListeners(BiConsumer<String, String> auth,
+                      Consumer<String> register) {
+        this.auth_listener = auth;
+        this.register_listener = register;
     }
 
-    @FXML protected void auth(ActionEvent event) {
-        Pair<String, String> response = auth.apply(login.getText(), password.getText());
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        System.out.println(response.getKey());
-        System.out.println(response.getValue());
-        alert.setTitle(response.getKey());
-        alert.setContentText(response.getValue());
-        alert.showAndWait();
+    @FXML
+    protected void auth(ActionEvent event) {
+        auth_listener.accept(login.getText(), password.getText());
     }
-    @FXML protected void register(ActionEvent event) {
-        register.apply(mail.getText());
+
+    @FXML
+    protected void register(ActionEvent event) {
+        register_listener.accept(mail.getText());
     }
 }

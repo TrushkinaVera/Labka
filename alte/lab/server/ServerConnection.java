@@ -10,18 +10,19 @@ import alte.lab.connection.ResponseCode;
 import java.io.*;
 import java.net.Socket;
 import java.sql.SQLException;
-import java.util.Scanner;
 import java.util.concurrent.Semaphore;
 
-public class ServerConnection implements Runnable{
+public class ServerConnection implements Runnable {
     private Semaphore smp;
     private Socket socket;
+
     public ServerConnection(Semaphore smp, Socket socket) {
         System.out.println("new connection detected");
         this.smp = smp;
         this.socket = socket;
         new Thread(this).start();
     }
+
     @Override
     public void run() {
 
@@ -39,8 +40,8 @@ public class ServerConnection implements Runnable{
             ObjectOutputStream oos = new ObjectOutputStream(ts);
             ObjectInputStream ois = new ObjectInputStream(is);
             Packet input;
-            while(true){
-                if((input = (Packet) ois.readObject()) != null){
+            while (true) {
+                if ((input = (Packet) ois.readObject()) != null) {
                     //блокиров очка
                     smp.acquire();
 
@@ -48,7 +49,7 @@ public class ServerConnection implements Runnable{
                     //вот твой инпут пакет
                     Command cmd = input.getCommand();
                     System.out.println(input.getCommand().getText());
-                    if(ServerMain.auth(ServerMain.conn, authData.getLogin(), authData.getPassword()) || "login".equals(cmd.getText()) || "register".equals(cmd.getText())) {
+                    if (ServerMain.auth(ServerMain.conn, authData.getLogin(), authData.getPassword()) || "login".equals(cmd.getText()) || "register".equals(cmd.getText())) {
                         System.out.println(input.getCommand().getText());
                         //работаем с чем нам надо
                         Object razvrat = null;
@@ -70,7 +71,7 @@ public class ServerConnection implements Runnable{
                             e.printStackTrace();
                         }
 
-                        Packet response = Packet.formPacket(new Pair<>(Header.CODE, razvrat != null ? ResponseCode.OK : ResponseCode.BAD_REQUEST), new Pair<>(Header.DATA, razvrat));
+                        Packet response = Packet.formPacket(new Pair<>(Header.CODE, razvrat != null ? ResponseCode.OK : ResponseCode.BAD_REQUEST), new Pair<>(Header.DATA, razvrat), new Pair<>(Header.COMMAND, cmd));
                         oos.writeObject(response);
                         oos.flush();
                     }

@@ -1,4 +1,5 @@
 package alte.lab.server;
+
 import alte.lab.Human;
 import alte.lab.Mail;
 import alte.lab.User;
@@ -6,9 +7,9 @@ import alte.lab.User;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.sql.*;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 public class ServerMain {
@@ -33,16 +34,17 @@ public class ServerMain {
     private static String USER = "smarts";//"s";//"smarts";
     private static String PASS = "difpas2";//difpas2";
     public static Connection conn;
-    public static String createUserBd = new String("Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)");
-    public static String createObjectsBd = new String("Create table if not exists objects(id SERIAL PRIMARY KEY," +
+    public static String createUserBd = "Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)";
+    public static String createObjectsBd = "Create table if not exists objects(id SERIAL PRIMARY KEY," +
             "login TEXT NOT NULL," +
             "name TEXT NOT NULL UNIQUE," +
             "age int4 NOT NULL," +
             "x int4," +
             "y int4," +
-            "createdate TEXT NOT NULL)");
+            "createdate TEXT NOT NULL)";
     public static ArrayList<CollectionCommand> cmds;
     public static Semaphore syncher;
+
     public static void main(String[] args) {
 
         syncher = new Semaphore(1);
@@ -114,7 +116,7 @@ public class ServerMain {
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
                 //TODO: регистрация
 
-                String login = (String)arg;
+                String login = (String) arg;
                 String sql = "INSERT INTO users (login, password) Values (?, ?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
@@ -130,11 +132,10 @@ public class ServerMain {
                 razvrat.next();
                 long id = razvrat.getLong(1);
 
-                Mail.mail(login, "Вам письмо", "Ну здарова. Пароль сматри сюда: "+password);
-                return "Account created, your unique ID is "+ id + " (and password is "+ password + ")";
+                Mail.mail(login, "Вам письмо", "Ну здарова. Пароль сматри сюда: " + password);
+                return "Account created, your unique ID is " + id + " (and password is " + password + ")";
             }
         });
-
 
 
         //Adding commands
@@ -146,7 +147,7 @@ public class ServerMain {
 
             @Override
             public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
-                Human harg = (Human)arg;
+                Human harg = (Human) arg;
                 String sql = "INSERT INTO objects (login, name, age, x, y, createdate) Values (?, ?, ?, ?, ?, ?)";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, usr.getLogin());
@@ -154,7 +155,7 @@ public class ServerMain {
                 preparedStatement.setInt(3, harg.getAge());
                 preparedStatement.setInt(4, harg.getPosX());
                 preparedStatement.setInt(5, harg.getPosY());
-                preparedStatement.setString(6, harg.getDate().toString());
+                preparedStatement.setString(6, harg.getDate());
                 int rows = preparedStatement.executeUpdate();
                 if (rows == 0) {
                     System.out.println("Creating RAZVRAT failed");
@@ -162,7 +163,7 @@ public class ServerMain {
                 ResultSet razvrat = preparedStatement.getGeneratedKeys();
                 razvrat.next();
                 Long id = razvrat.getLong(1);
-                return "Created object with id "+ id;
+                return "Created object with id " + id;
             }
         });
         cmds.add(new CollectionCommand() {
@@ -172,7 +173,7 @@ public class ServerMain {
             }
 
             @Override
-            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException{
+            public Object doCommand(Connection conn, Object arg, User usr) throws SQLException {
                 Integer harg = (Integer) arg;
                 System.out.println(harg);
                 String sql = "DELETE FROM objects WHERE id=? and login=?";
@@ -242,23 +243,20 @@ public class ServerMain {
         ServerSocket server = null;
         try {
             try {
-                server  = new ServerSocket(port);
+                server = new ServerSocket(port);
                 System.out.println("Сервер запущен!");
                 int id = 0;
-                while(true){
+                while (true) {
                     new ServerConnection(syncher, server.accept());
                     id++;
                 }
-            }
-            finally {
+            } finally {
                 System.out.println("Сервер выключается");
                 server.close();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println("Сервер не был запущен из-за ошибки");
         }
-
 
 
     }

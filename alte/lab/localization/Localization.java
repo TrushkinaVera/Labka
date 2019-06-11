@@ -6,7 +6,7 @@ public class Localization {
     private ResourceBundle res;
 
     public Localization() {
-         res = ResourceBundle.getBundle("localization");
+        res = ResourceBundle.getBundle("localization");
     }
 
     public String getString(String keyName) {

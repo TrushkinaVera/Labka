@@ -1,6 +1,7 @@
 package alte.lab.connection;
 
 import alte.lab.localization.Localization;
+
 import java.io.Serializable;
 
 /**
@@ -9,7 +10,7 @@ import java.io.Serializable;
 public enum ResponseCode implements Serializable {
     OK("ok"),
     UNATHORIZED("unathorized"),
-    BAD_REQUEST( "bad_request");
+    BAD_REQUEST("bad_request");
 
     private String message_key;
 
@@ -19,6 +20,7 @@ public enum ResponseCode implements Serializable {
 
     /**
      * Получить локализованное сообщение
+     *
      * @param localization объект с инициализированной локализацией
      */
     public String getMessage(Localization localization) {

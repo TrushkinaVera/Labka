@@ -1,4 +1,5 @@
 package alte.lab.client;
+
 import alte.lab.Command;
 import alte.lab.CommandParser;
 import alte.lab.Pair;
@@ -6,17 +7,14 @@ import alte.lab.User;
 import alte.lab.connection.Header;
 import alte.lab.connection.Packet;
 
-import javax.naming.ldap.SortKey;
-import javax.sound.midi.Soundbank;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.concurrent.Exchanger;
 
 import static alte.lab.client.ClientMain.*;
 
-public class ConsoleListener implements Runnable{
+public class ConsoleListener implements Runnable {
     private ObjectOutputStream out;
     private Socket conn;
     private boolean console;
@@ -77,23 +75,21 @@ public class ConsoleListener implements Runnable{
             if ("login".equals(cmd.getText())) {
                 auth = (User) cmd.getArgument();
                 return localization.getString("auth_saved");
-            }
-            else if ("register".equals(cmd.getText())) {
-                auth = new User((String)cmd.getArgument());
-                return  localization.getString("try_register");
+            } else if ("register".equals(cmd.getText())) {
+                auth = new User((String) cmd.getArgument());
+                return localization.getString("try_register");
             }
 
 
-            if(ClientMain.auth != null) {
+            if (ClientMain.auth != null) {
                 Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));
                 out.writeObject(packet);
                 out.flush();
-            }
-            else return localization.getString("auth_null");
+            } else return localization.getString("auth_null");
 
         } catch (IOException e) {
             e.printStackTrace();
-            return  "ты хуй";
+            return "ты хуй";
         } catch (NullPointerException e) {
             return localization.getString("wrong_command");
         }

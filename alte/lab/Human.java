@@ -12,6 +12,7 @@ public class Human implements Serializable, Comparable<Human> {
     private int yPos;
     private Integer id;
     private OffsetDateTime tTime;
+
     //TODO: ADD DATE
     public Human(String name, int age) {
         this(name, age, 0, 0);
@@ -41,9 +42,10 @@ public class Human implements Serializable, Comparable<Human> {
     public void setAge(int age) {
         this.age = age;
     }
-    public void move(double x, double y){
-        xPos+=x;
-        yPos+=y;
+
+    public void move(double x, double y) {
+        xPos += x;
+        yPos += y;
     }
 
     public Integer getId() {
@@ -80,12 +82,12 @@ public class Human implements Serializable, Comparable<Human> {
 
     @Override
     public int compareTo(Human o) {
-        return age-o.getAge();
+        return age - o.getAge();
     }
 
     public JSONObject toJSON() {
         JSONObject oneMan = new JSONObject();
-        oneMan.put("Name",name);
+        oneMan.put("Name", name);
         oneMan.put("Age", age);
         oneMan.put("PosX", xPos);
         oneMan.put("PosY", yPos);
@@ -99,7 +101,7 @@ public class Human implements Serializable, Comparable<Human> {
 
     @Override
     public String toString() {
-        return "Human: " + name + ", " + Integer.toString(age) + " years old, Position:[" + Double.toString(xPos) + ";" + Double.toString(yPos) + "]";
+        return "Human: " + name + ", " + age + " years old, Position:[" + xPos + ";" + yPos + "]";
         //return super.toString();
     }
 }

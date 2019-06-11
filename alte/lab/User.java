@@ -9,19 +9,24 @@ import java.security.NoSuchAlgorithmException;
 public class User implements Serializable {
     private String login;
     private String password;
+
     public User(String login) {
         this.login = login;
-        if(login == null)throw new NullPointerException();
+        if (login == null) throw new NullPointerException();
     }
+
     public String getLogin() {
         return login;
     }
+
     public void setLogin(String login) {
         this.login = login;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -37,14 +42,14 @@ public class User implements Serializable {
         return encoded;
     }
 
-    public void hashAndSetPassword(String password){
+    public void hashAndSetPassword(String password) {
         //TODO:hasher
         this.password = encrypt(password);
     }
 
     public JSONObject toJSON() {
         JSONObject oneUser = new JSONObject();
-        oneUser.put("Login",login);
+        oneUser.put("Login", login);
         oneUser.put("Password", password);
         return oneUser;
     }
