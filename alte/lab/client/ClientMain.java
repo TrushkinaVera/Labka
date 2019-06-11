@@ -40,6 +40,37 @@ public class ClientMain extends Application {
 
     public static void main(String[] args) {
 
+        Application.launch(args);
+    }
+
+    /*
+    if(cmd != null) {
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+
+        MainController controller = loader.getController();
+        controller.drawCanvas();
+
+        stage.setWidth(750);
+        stage.setHeight(750);
+        stage.setScene(scene);
+        stage.setTitle(localization.getString("main_window"));
+        stage.show();
+
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        System.out.println(response.getKey());
+        System.out.println(response.getValue());
+        alert.setTitle(response.getKey());
+        alert.setContentText(response.getValue());
+        alert.showAndWait();
+    }*/
+
+    @Override
+    public void start(Stage stage) {
+
         Socket connection;
         localization = new Localization();
         try {
@@ -52,11 +83,26 @@ public class ClientMain extends Application {
                 switch(input.getCommand().getText()) {
                     case "login":
 
-                        if(input.getReponseCode() == OK) {
+                        try {
+                            if (input.getReponseCode() == OK) {
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
+                                Parent root = loader.load();
+                                Scene scene = new Scene(root);
 
+                                MainController controller = loader.getController();
+                                controller.drawCanvas();
+
+                                stage.setWidth(750);
+                                stage.setHeight(750);
+                                stage.setScene(scene);
+                                stage.setTitle(localization.getString("main_window"));
+                                stage.show();
+                            } else {
+
+                            }
                         }
-                        else {
-
+                        catch (IOException e) {
+                            e.printStackTrace();
                         }
 
                         break;
@@ -86,46 +132,8 @@ public class ClientMain extends Application {
 
             System.out.println(localization.getString("connected"));
 
+            /* --------------------------- */
 
-        } catch (UnknownHostException e) {
-            System.out.println(localization.getString("host_down"));
-        } catch (IOException e) {
-            System.out.println(localization.getString("connection_error"));
-        }
-
-        Application.launch(args);
-    }
-
-    /*
-
-                        if(cmd != null) {
-
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/main.fxml"));
-                            Parent root = loader.load();
-                            Scene scene = new Scene(root);
-
-                            MainController controller = loader.getController();
-                            controller.drawCanvas();
-
-                            stage.setWidth(750);
-                            stage.setHeight(750);
-                            stage.setScene(scene);
-                            stage.setTitle(localization.getString("main_window"));
-                            stage.show();
-
-
-                            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                            System.out.println(response.getKey());
-                            System.out.println(response.getValue());
-                            alert.setTitle(response.getKey());
-                            alert.setContentText(response.getValue());
-                            alert.showAndWait();
-                        }*/
-
-    @Override
-    public void start(Stage stage) {
-
-        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/auth.fxml"));
             Parent root = loader.load();
 
@@ -139,8 +147,9 @@ public class ClientMain extends Application {
                 try {
                     auth = new User(s);
                     auth.hashAndSetPassword(s2);
+                    Command cmd = new Command("login", auth);
 
-                    Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, "login"));
+                    Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));
                     out.writeObject(packet);
                     out.flush();
 
@@ -152,7 +161,9 @@ public class ClientMain extends Application {
 
                 try {
                     auth = new User(s);
-                    Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, "register"));
+                    Command cmd = new Command("register", auth);
+
+                    Packet packet = Packet.formPacket(new Pair<>(Header.USER, auth), new Pair<>(Header.COMMAND, cmd));
                     out.writeObject(packet);
                     out.flush();
                 } catch (IOException e) {
@@ -167,8 +178,11 @@ public class ClientMain extends Application {
             stage.setHeight(750);
 
             stage.show();
+
+        } catch (UnknownHostException e) {
+            alert("UnknownHostException", localization.getString("host_down"));
         } catch (IOException e) {
-            e.printStackTrace();
+            alert("IOException", localization.getString("connection_error"));
         }
     }
 
