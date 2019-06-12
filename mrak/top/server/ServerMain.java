@@ -1,8 +1,8 @@
-package alte.lab.server;
+package mrak.top.server;
 
-import alte.lab.Human;
-import alte.lab.Mail;
-import alte.lab.User;
+import mrak.top.Human;
+import mrak.top.Mail;
+import mrak.top.User;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -31,10 +31,11 @@ public class ServerMain {
         return !(rows == 0);
     }
 
-    private static String DB_URL = "jdbc:postgresql://localhost:5432/labaa";//"jdbc:postgresql://pg/studs";//
-    private static String USER = "smarts";//"s";//"smarts";
-    private static String PASS = "difpas2";//difpas2";
+    private static String DB_URL = "jdbc:postgresql://localhost:5432/tlabaa";//"jdbc:postgresql://pg/studs";//
+    private static String USER = "vera";//"s";//"smarts";
+    private static String PASS = "wLhmGL";//difpas2";
     public static Connection conn;
+
     public static String createUserBd = "Create table if not exists users(id SERIAL PRIMARY KEY, login TEXT NOT NULL UNIQUE, password TEXT NOT NULL)";
     public static String createObjectsBd = "Create table if not exists objects(id SERIAL PRIMARY KEY," +
             "login TEXT NOT NULL," +

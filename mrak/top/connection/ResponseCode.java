@@ -1,6 +1,6 @@
-package alte.lab.connection;
+package mrak.top.connection;
 
-import alte.lab.localization.Localization;
+import mrak.top.localization.Localization;
 
 import java.io.Serializable;
 

@@ -1,7 +1,6 @@
-package alte.lab.client;
+package mrak.top.client;
 
-import alte.lab.Human;
-import alte.lab.User;
+import mrak.top.Human;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;

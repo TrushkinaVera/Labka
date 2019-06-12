@@ -1,4 +1,4 @@
-package alte.lab;
+package mrak.top;
 
 public class CommandParseException extends Exception {
     public CommandParseException() {

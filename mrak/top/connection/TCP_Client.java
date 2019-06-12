@@ -1,6 +1,6 @@
-package alte.lab.connection;
+package mrak.top.connection;
 
-import alte.lab.Command;
+import mrak.top.Command;
 
 public class TCP_Client implements Client {
     @Override

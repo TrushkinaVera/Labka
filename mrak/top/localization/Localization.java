@@ -1,4 +1,4 @@
-package alte.lab.localization;
+package mrak.top.localization;
 
 import java.util.ResourceBundle;
 

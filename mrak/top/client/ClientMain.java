@@ -1,13 +1,13 @@
-package alte.lab.client;
+package mrak.top.client;
 
-import alte.lab.Command;
-import alte.lab.Human;
-import alte.lab.Pair;
-import alte.lab.User;
-import alte.lab.connection.Header;
-import alte.lab.connection.Packet;
-import alte.lab.connection.ResponseCode;
-import alte.lab.localization.Localization;
+import mrak.top.Command;
+import mrak.top.Human;
+import mrak.top.Pair;
+import mrak.top.User;
+import mrak.top.connection.Header;
+import mrak.top.connection.Packet;
+import mrak.top.connection.ResponseCode;
+import mrak.top.localization.Localization;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +23,6 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-
-import static alte.lab.connection.ResponseCode.OK;
 
 public class ClientMain extends Application {
     public static String hostname = "uriy.yuran.us";
@@ -166,7 +164,7 @@ public class ClientMain extends Application {
                 switch (input.getCommand().getText()) {
                     case "login":
 
-                        if (input.getReponseCode() == OK)
+                        if (input.getReponseCode() == ResponseCode.OK)
                             loadScene(stage, localization.getString("main_window"), "/fxml/main.fxml", 750, 750, false);
                         else alert("ERROR", input.getStringResponse());
 

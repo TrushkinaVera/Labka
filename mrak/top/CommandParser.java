@@ -1,4 +1,4 @@
-package alte.lab;
+package mrak.top;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -74,7 +74,7 @@ public class CommandParser {
 
     /**
      * @param d входная команда из консоли
-     * @return возвращает объект alte.lab.Command, который содержит в себе аргумент соответствующего типа
+     * @return возвращает объект Command, который содержит в себе аргумент соответствующего типа
      */
     public static Command parse(String d) {
         try {

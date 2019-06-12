@@ -1,14 +1,13 @@
-package alte.lab.client;
+package mrak.top.client;
 
-import alte.lab.connection.Packet;
-import alte.lab.connection.ResponseCode;
+import mrak.top.connection.Packet;
 
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import static alte.lab.client.ClientMain.localization;
+import static mrak.top.client.ClientMain.localization;
 
 interface PacketDecoder {
     void decode(Packet input);

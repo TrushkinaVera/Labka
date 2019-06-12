@@ -1,9 +1,9 @@
-package alte.lab.connection;
+package mrak.top.connection;
 
-import alte.lab.Command;
-import alte.lab.Pair;
-import alte.lab.SerAble;
-import alte.lab.User;
+import mrak.top.Command;
+import mrak.top.Pair;
+import mrak.top.SerAble;
+import mrak.top.User;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

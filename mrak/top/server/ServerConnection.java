@@ -1,11 +1,11 @@
-package alte.lab.server;
+package mrak.top.server;
 
-import alte.lab.Command;
-import alte.lab.Pair;
-import alte.lab.User;
-import alte.lab.connection.Header;
-import alte.lab.connection.Packet;
-import alte.lab.connection.ResponseCode;
+import mrak.top.Command;
+import mrak.top.Pair;
+import mrak.top.User;
+import mrak.top.connection.Header;
+import mrak.top.connection.Packet;
+import mrak.top.connection.ResponseCode;
 
 import java.io.*;
 import java.net.Socket;

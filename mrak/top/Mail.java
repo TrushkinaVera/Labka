@@ -1,4 +1,4 @@
-package alte.lab;
+package mrak.top;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;

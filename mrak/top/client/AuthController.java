@@ -1,4 +1,4 @@
-package alte.lab.client;
+package mrak.top.client;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

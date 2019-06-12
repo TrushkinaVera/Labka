@@ -12,7 +12,7 @@
 <GridPane id="main_pane"
           xmlns="http://javafx.com/javafx"
           xmlns:fx="http://javafx.com/fxml"
-          fx:controller="alte.lab.client.MainController"
+          fx:controller="mrak.top.client.MainController"
           prefHeight="750" prefWidth="750.0"
           stylesheets="/stylesheet/main.css"
           onKeyReleased="#keyPressed">

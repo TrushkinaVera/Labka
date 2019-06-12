@@ -1,18 +1,18 @@
-package alte.lab.client;
+package mrak.top.client;
 
-import alte.lab.Command;
-import alte.lab.CommandParser;
-import alte.lab.Pair;
-import alte.lab.User;
-import alte.lab.connection.Header;
-import alte.lab.connection.Packet;
+import mrak.top.Command;
+import mrak.top.CommandParser;
+import mrak.top.Pair;
+import mrak.top.User;
+import mrak.top.connection.Header;
+import mrak.top.connection.Packet;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-import static alte.lab.client.ClientMain.*;
+import static mrak.top.client.ClientMain.*;
 
 public class ConsoleListener implements Runnable {
     private ObjectOutputStream out;

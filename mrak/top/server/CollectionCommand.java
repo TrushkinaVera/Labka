@@ -1,6 +1,6 @@
-package alte.lab.server;
+package mrak.top.server;
 
-import alte.lab.User;
+import mrak.top.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;

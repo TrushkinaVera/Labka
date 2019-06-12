@@ -1,6 +1,6 @@
-package alte.lab.connection;
+package mrak.top.connection;
 
-import alte.lab.Command;
+import mrak.top.Command;
 
 interface Client {
     boolean connect(String host);
